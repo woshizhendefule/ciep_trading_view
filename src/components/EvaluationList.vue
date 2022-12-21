@@ -5,6 +5,14 @@
             <template v-if="column.dataIndex == 'caozuo'">
                 <a-button danger style="margin-right: 10px;" @click="deleteComments(record)">删除评价</a-button>
             </template>
+            <template v-if="column.dataIndex == 'goodsUserEvaluation'">
+                <div v-if="record.goodsUserEvaluation != null"> {{ record.goodsUserEvaluation }}</div>
+                <div v-else style="color: #00000050;">暂无评价</div>
+            </template>
+            <template v-if="column.dataIndex == 'userEvaluation'">
+                <div v-if="record.userEvaluation != null"> {{ record.userEvaluation }}</div>
+                <div v-else style="color: #00000050;">暂无评价</div>
+            </template>
         </template>
     </a-table>
 </template>

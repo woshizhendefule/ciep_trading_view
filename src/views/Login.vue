@@ -1,39 +1,39 @@
 <template>
-  <h1>欢迎使用校园闲置电子产品交易平台！</h1>
-  <a-form :model="state" name="normal_login" class="login-form" :labelCol="{ span: 1 }">
-    <a-form-item label="用户名" name="name" :rules="[{ required: true, message: 'Please input your username!' }]">
-      <a-input v-model:value="state.name">
+  <a-form :model="state" name="normal_login" class="login-form" :labelCol="{ span: 1 }"
+    style="width: 357px;margin: auto;padding: 200px 0;">
+    <h2>欢迎使用校园闲置电子产品交易平台！</h2><br>
+    <a-form-item label="用户名" name="name" :rules="[{ required: true, message: '请输入您的用户名!' }]" style="margin-left: 10%;">
+      <a-input v-model:value="state.name" style="width: 200px;margin-left: 20%;">
         <template #prefix>
           <UserOutlined class="site-form-item-icon" />
         </template>
       </a-input>
     </a-form-item>
 
-    <a-form-item label="密&nbsp;&nbsp;&nbsp;&nbsp;码" name="password"
-      :rules="[{ required: true, message: 'Please input your password!' }]">
-      <a-input-password v-model:value="state.password">
+    <a-form-item label="密&nbsp;&nbsp;&nbsp;&nbsp;码" name="password" :rules="[{ required: true, message: '请输入您的密码!' }]"
+      style="margin-left: 10%;">
+      <a-input-password v-model:value="state.password" style="width: 200px;margin-left: 20%;">
         <template #prefix>
           <LockOutlined class="site-form-item-icon" />
         </template>
       </a-input-password>
     </a-form-item>
-
     <a-form-item>
-      <a class="login-form-forgot" href="">Forgot password</a>
+      <a class="login-form-forgot" href="" style="margin-left: 74.5%;">找回密码</a>
     </a-form-item>
-
     <a-form-item>
-      <a-button type="primary" html-type="submit" class="login-form-button" @click="login">
-        Log in
-      </a-button>
-      Or
-      <a href="">register now!</a>
+      <a-button :disabled="disabled" type="primary" html-type="submit" class="login-form-button" @click="login"
+        style="width: 80%;margin-left: 10%;">
+        登录
+      </a-button><br>
+      <text style="margin-left: 10%;">或</text>
+      <a href="" style="margin-left: 2%;">现在注册!</a>
     </a-form-item>
   </a-form>
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive } from 'vue';
+import { defineComponent, reactive, computed } from 'vue';
 import { UserOutlined, LockOutlined } from '@ant-design/icons-vue';
 import api from '../api/api'
 import router from "../router";
@@ -70,9 +70,14 @@ export default defineComponent({
       })
     }
 
+    const disabled = computed(() => {
+      return !(state.name && state.password);
+    });
+
     return {
       state,
-      login
+      login,
+      disabled
     };
   },
 });

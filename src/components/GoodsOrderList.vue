@@ -12,6 +12,10 @@
                 <a-button danger style="margin-right: 10px;" :disabled="!(record.status == 3)"
                     @click="cancelOrders(record)">取消订单</a-button>
             </template>
+            <template v-if="column.dataIndex == 'completeTime'">
+                <div v-if="record.completeTime != null"> {{ record.completeTime }}</div>
+                <div v-else style="color: #00000050;">订单暂未完成</div>
+            </template>
         </template>
     </a-table>
 </template>
