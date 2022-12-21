@@ -35,9 +35,9 @@ export interface GoodsOrder {
     status: number;
     completeTime: string;
     goodsUserScore: number;
-    goodsUserEvaluation: string;
+    goodsUserEvaluation: string | null;
     userScore: number;
-    userEvaluation: string;
+    userEvaluation: string | null;
 }
 
 export interface Message {
