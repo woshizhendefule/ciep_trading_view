@@ -11,7 +11,7 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/adminView', name: 'adminView', component: () => import('../views/AdminView.vue'),
     children: [
-      { path: 'userList', name: 'userList', component: () => import('../components/UserList.vue') },
+      { path: '', name: 'userList', component: () => import('../components/UserList.vue') },
       { path: 'goodsList', name: 'goodsList', component: () => import('../components/GoodsList.vue') },
       { path: 'messageList', name: 'messageList', component: () => import('../components/MessageList.vue') },
       { path: 'evaluationList', name: 'evaluationList', component: () => import('../components/EvaluationList.vue') },
