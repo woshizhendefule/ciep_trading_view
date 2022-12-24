@@ -2,14 +2,21 @@ import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 
 const routes: Array<RouteRecordRaw> = [
   {
-    path: '/', redirect: '/login'
+    path: '/', redirect: '/homeView'
   },
   {
-    path: '/login', name: 'login', component: () => import('../views/Login.vue')
+    path: '/homeView', name: 'homeView', component: () => import('../views/User/HomeView.vue')
+  },
+  {
+    path: '/userLogin', name: 'userLogin', component: () => import('../views/User/UserLogin.vue')
   },
 
+
   {
-    path: '/adminView', name: 'adminView', component: () => import('../views/AdminView.vue'),
+    path: '/adminLogin', name: 'adminLogin', component: () => import('../views/Admin/AdminLogin.vue')
+  },
+  {
+    path: '/adminView', name: 'adminView', component: () => import('../views/Admin/AdminView.vue'),
     children: [
       { path: '', name: 'userList', component: () => import('../components/UserList.vue') },
       { path: 'goodsList', name: 'goodsList', component: () => import('../components/GoodsList.vue') },

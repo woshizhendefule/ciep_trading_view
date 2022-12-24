@@ -1,9 +1,10 @@
 import http from './http';
 
 export default {
-    login(params: any) {
-        return http.get(`/user/login?name=${params.name}&password=${params.password}`)
+    adminLogin(params: any) {
+        return http.get(`/user/adminLogin?name=${params.name}&password=${params.password}`)
     },
+
     getAllUser() {
         return http.get(`/user/getAllUser`)
     },
@@ -45,5 +46,14 @@ export default {
     },
     cancelOrders(params: any) {
         return http.post(`/goods_order/cancelOrders?id=${params.id}`, params)
+    },
+
+
+    userLogin(params: any) {
+        return http.get(`/user/userLogin?name=${params.name}&password=${params.password}`)
+    },
+
+    getAllGoodsOrderByDesc() {
+        return http.get(`/goods/getAllGoodsOrderByDesc`)
     },
 }

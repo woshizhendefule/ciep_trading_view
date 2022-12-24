@@ -1,9 +1,8 @@
 <template>
-  <a-form :model="state" name="normal_login" class="login-form" :labelCol="{ span: 1 }"
-    style="width: 357px;margin: auto;padding: 200px 0;">
-    <h2>欢迎使用校园闲置电子产品交易平台！</h2><br>
-    <a-form-item label="用户名" name="name" :rules="[{ required: true, message: '请输入您的用户名!' }]" style="margin-left: 10%;">
-      <a-input v-model:value="state.name" style="width: 200px;margin-left: 20%;">
+  <a-form :model="state" name="normal_login" class="login-form">
+    <h2 style="text-align: center;">欢迎使用校园闲置电子产品交易平台管理系统！</h2><br>
+    <a-form-item label="用户名" name="name" :rules="[{ required: true, message: '请输入您的用户名!' }]" style="margin-left: 12%;">
+      <a-input v-model:value="state.name" style="width: 200px;">
         <template #prefix>
           <UserOutlined class="site-form-item-icon" />
         </template>
@@ -11,23 +10,18 @@
     </a-form-item>
 
     <a-form-item label="密&nbsp;&nbsp;&nbsp;&nbsp;码" name="password" :rules="[{ required: true, message: '请输入您的密码!' }]"
-      style="margin-left: 10%;">
-      <a-input-password v-model:value="state.password" style="width: 200px;margin-left: 20%;">
+      style="margin-left: 12%;">
+      <a-input-password v-model:value="state.password" style="width: 200px;">
         <template #prefix>
           <LockOutlined class="site-form-item-icon" />
         </template>
       </a-input-password>
-    </a-form-item>
+    </a-form-item><br>
     <a-form-item>
-      <a class="login-form-forgot" href="" style="margin-left: 74.5%;">找回密码</a>
-    </a-form-item>
-    <a-form-item>
-      <a-button :disabled="disabled" type="primary" html-type="submit" class="login-form-button" @click="login"
+      <a-button :disabled="disabled" type="primary" html-type="submit" class="login-form-button" @click="adminLogin"
         style="width: 80%;margin-left: 10%;">
         登录
-      </a-button><br>
-      <text style="margin-left: 10%;">或</text>
-      <a href="" style="margin-left: 2%;">现在注册!</a>
+      </a-button>
     </a-form-item>
   </a-form>
 </template>
@@ -35,8 +29,8 @@
 <script lang="ts">
 import { defineComponent, reactive, computed } from 'vue';
 import { UserOutlined, LockOutlined } from '@ant-design/icons-vue';
-import api from '../api/api'
-import router from "../router";
+import api from '../../api/api'
+import router from '../../router';
 
 interface state {
   name: string,
@@ -44,7 +38,7 @@ interface state {
 }
 
 export default defineComponent({
-  name: 'Login',
+  name: 'adminLogin',
 
   components: {
     UserOutlined,
@@ -58,8 +52,8 @@ export default defineComponent({
       password: ''
     });
 
-    function login() {
-      api.login({
+    function adminLogin() {
+      api.adminLogin({
         name: state.name,
         password: state.password
       }).then((res: any) => {
@@ -76,7 +70,7 @@ export default defineComponent({
 
     return {
       state,
-      login,
+      adminLogin,
       disabled
     };
   },
@@ -94,5 +88,13 @@ export default defineComponent({
 
 #components-form-demo-normal-login .login-form-button {
   width: 100%;
+}
+
+.login-form {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 357px;
 }
 </style>

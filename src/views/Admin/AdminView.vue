@@ -4,7 +4,7 @@
             <span style="display: flex;">
                 <h1 style="color: #fff;width: 350px;">校园闲置电子产品交易平台管理系统</h1>
                 <div style="flex: auto; text-align: right;">
-                    <button @click="toLogin" style="background-color: #001529; color: #fff;;">注销</button>
+                    <button @click="toAdminLogin" style="background-color: #001529; color: #fff;;">注销</button>
                 </div>
             </span>
         </a-layout-header>
@@ -41,7 +41,7 @@
 
                     <a-menu-item key="5" @click="toGoodsOrderList">
                         <span>
-                            <gift-outlined />
+                            <unordered-list-outlined />
                             订单管理
                         </span>
                     </a-menu-item>
@@ -59,7 +59,7 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import { UserOutlined, AppstoreOutlined, CommentOutlined, LikeOutlined, GiftOutlined } from '@ant-design/icons-vue';
+import { UserOutlined, AppstoreOutlined, CommentOutlined, LikeOutlined, UnorderedListOutlined } from '@ant-design/icons-vue';
 import router from "@/router";
 // interface state {
 
@@ -72,16 +72,16 @@ export default defineComponent({
         AppstoreOutlined,
         CommentOutlined,
         LikeOutlined,
-        GiftOutlined
+        UnorderedListOutlined
     },
 
     setup() {
         // const state = reactive<state>({});
 
 
-        function toLogin() {
+        function toAdminLogin() {
             router.push({
-                name: 'login'
+                name: 'adminLogin'
             })
             localStorage.setItem('token', '')
         }
@@ -117,7 +117,7 @@ export default defineComponent({
         }
 
         return {
-            toLogin,
+            toAdminLogin,
             toUserList,
             toGoodsList,
             toMessageList,

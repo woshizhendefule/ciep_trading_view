@@ -61,6 +61,21 @@ export interface UserInfo {
     userScore: number;
 }
 
+export interface GoodsInfo {
+    id: number;
+    name: string;
+    introduce: string;
+    picture: string;
+    credential: string;
+    price: number;
+    releaseTime: string;
+    isRelease: number;
+    userId: number;
+    userName: string;
+    goodsUserScore: number;
+    userScore: number;
+}
+
 export interface CollectionInfo {
     goodsName: string;
     goodsIntroduce: string;
