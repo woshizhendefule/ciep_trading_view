@@ -31,6 +31,7 @@ import { defineComponent, reactive, computed } from 'vue';
 import { UserOutlined, LockOutlined } from '@ant-design/icons-vue';
 import api from '../../api/api'
 import router from '../../router';
+import { message } from "ant-design-vue";
 
 interface state {
   name: string,
@@ -60,6 +61,8 @@ export default defineComponent({
         if (res.code == 200) {
           localStorage.setItem('token', res.data)
           router.push('adminView')
+        } else {
+          message.error(res.description)
         }
       })
     }
