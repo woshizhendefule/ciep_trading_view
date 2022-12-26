@@ -30,13 +30,22 @@
                 </div>
             </div>
 
-            <div style="width: 374px; height: 366px; margin-left: auto; border-radius: 12px; margin: 18px 0 0 18px;
-                 ">
+            <div style="width: 374px; height: 366px; margin-left: auto; border-radius: 12px; margin: 18px 0 0 18px;">
                 <div style="text-align: center;height: 198px;padding-top: 27.5%;">欢迎使用校园闲置电子产品交易平台！</div><br>
 
                 <div style="text-align: center;">
-                    <button class="text_user_caozuo" @click="toUserLogin">登录</button>
-                    <button class="text_user_caozuo" style="margin-left: 18px;" @click="toUserRegistered">注册</button>
+                    <div v-if="state.userInfo?.name == undefined">
+                        <button class="text_user_caozuo" @click="toUserLogin">登录</button>
+                        <button class="text_user_caozuo" style="margin-left: 18px;"
+                            @click="toUserRegistered">注册</button>
+                    </div>
+                    <div v-else>
+                        <text>Hi！</text>
+                        <text style="text-decoration: underline; cursor: pointer;" @click="toUserRegistered">{{
+        state.userInfo?.name
+}}</text>
+                    </div>
+
                 </div><br>
 
                 <div style=" text-align: center; display: flex;margin-top: 5px;">
@@ -89,14 +98,15 @@
 import { defineComponent, reactive, onBeforeMount } from "vue";
 import { UnorderedListOutlined, AppstoreOutlined, StarOutlined } from '@ant-design/icons-vue';
 import router from "@/router";
-import { GoodsInfo } from "@/interface";
+import { GoodsInfo, UserInfo } from "@/interface";
 import api from "../../api/api";
 import { message } from "ant-design-vue";
 
 interface state {
     goodsInfos: GoodsInfo[]
     url: string,
-    searchName: string
+    searchName: string,
+    userInfo: UserInfo | undefined
 }
 
 export default defineComponent({
@@ -112,13 +122,23 @@ export default defineComponent({
         const state = reactive<state>({
             goodsInfos: [],
             url: process.env.VUE_APP_AXIOS_BASEURL,
-            searchName: ''
+            searchName: '',
+            userInfo: undefined
         });
 
         onBeforeMount(() => {
             api.getAllGoodsOrderByDesc().then((res: any) => {
                 if (res.code == 200) {
                     state.goodsInfos = res.data
+                } else {
+                    message.error(res.description)
+                }
+            })
+            api.toViewUserInfo().then((res: any) => {
+                if (res.code == 200) {
+                    state.userInfo = res.data
+                    console.log(state.userInfo);
+
                 } else {
                     message.error(res.description)
                 }

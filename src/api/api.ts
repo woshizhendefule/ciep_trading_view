@@ -58,6 +58,9 @@ export default {
     retrievePassword(params: any) {
         return http.post(`/user/retrievePassword?name=${params.name}&password=${params.password}studentId=${params.studentId}&phone=${params.phone}&`, params)
     },
+    toViewUserInfo() {
+        return http.get(`/user/toViewUserInfo`)
+    },
 
     getAllGoodsOrderByDesc() {
         return http.get(`/goods/getAllGoodsOrderByDesc`)
