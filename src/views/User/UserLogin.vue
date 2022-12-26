@@ -19,7 +19,7 @@
             </a-input-password>
         </a-form-item>
         <a-form-item>
-            <a class="login-form-forgot" href="" style="margin-left: 74.5%;">找回密码</a>
+            <a class="login-form-forgot" style="margin-left: 74.5%;" @click="toUserRetrievePassword">找回密码</a>
         </a-form-item>
         <a-form-item>
             <a-button :disabled="disabled" type="primary" html-type="submit" class="login-form-button"
@@ -27,7 +27,7 @@
                 登录
             </a-button><br>
             <text style="margin-left: 10%;">或</text>
-            <a href="" style="margin-left: 2%;">现在注册!</a>
+            <a style="margin-left: 2%;" @click="toUserRegistered">现在注册!</a>
         </a-form-item>
     </a-form>
 </template>
@@ -66,10 +66,22 @@ export default defineComponent({
             }).then((res: any) => {
                 if (res.code == 200) {
                     localStorage.setItem('token', res.data)
-                    router.push('adminView')
+                    router.push('homeView')
                 } else {
                     message.error(res.description)
                 }
+            })
+        }
+
+        function toUserRetrievePassword() {
+            router.push({
+                name: 'userRetrievePassword'
+            })
+        }
+
+        function toUserRegistered() {
+            router.push({
+                name: 'userRegistered'
             })
         }
 
@@ -80,6 +92,8 @@ export default defineComponent({
         return {
             state,
             userLogin,
+            toUserRetrievePassword,
+            toUserRegistered,
             disabled
         };
     },

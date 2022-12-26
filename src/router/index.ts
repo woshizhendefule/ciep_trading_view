@@ -8,7 +8,16 @@ const routes: Array<RouteRecordRaw> = [
     path: '/homeView', name: 'homeView', component: () => import('../views/User/HomeView.vue')
   },
   {
+    path: '/searchView', name: 'searchView', component: () => import('../views/User/SearchView.vue')
+  },
+  {
     path: '/userLogin', name: 'userLogin', component: () => import('../views/User/UserLogin.vue')
+  },
+  {
+    path: '/userRegistered', name: 'userRegistered', component: () => import('../views/User/UserRegistered.vue')
+  },
+  {
+    path: '/userRetrievePassword', name: 'userRetrievePassword', component: () => import('../views/User/UserRetrievePassword.vue')
   },
 
 

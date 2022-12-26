@@ -52,8 +52,17 @@ export default {
     userLogin(params: any) {
         return http.get(`/user/userLogin?name=${params.name}&password=${params.password}`)
     },
+    registered(params: any) {
+        return http.post(`/user/registered?name=${params.name}&password=${params.password}studentId=${params.studentId}&phone=${params.phone}&`, params)
+    },
+    retrievePassword(params: any) {
+        return http.post(`/user/retrievePassword?name=${params.name}&password=${params.password}studentId=${params.studentId}&phone=${params.phone}&`, params)
+    },
 
     getAllGoodsOrderByDesc() {
         return http.get(`/goods/getAllGoodsOrderByDesc`)
+    },
+    searchGoods(params: any) {
+        return http.get(`/goods/searchGoods?name=${params.name}`)
     },
 }

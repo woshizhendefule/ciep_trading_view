@@ -9,57 +9,12 @@
             <button class="button_sousuo" @click="searchGoods">搜索</button>
         </div>
         <div
-            style="background-color: #ffffff; width: 1194px; margin: auto; border-radius: 18px; display: flex; flex-wrap: wrap;min-height: 72vh;">
-
-            <div style="display: flex; width: 784px;flex-wrap: wrap;">
-                <div class="div_goods_card" style="display: flex;" v-for="goodsInfo in state.goodsInfos.slice(0, 4)"
+            style="background-color: #ffffff; width: 1194px; margin: auto; border-radius: 18px; display: flex; flex-wrap: wrap;min-height: 75vh;">
+            <div style="display: flex; width: 1194px;flex-wrap: wrap;">
+                <div class="div_goods_card" style="display: flex;" v-for="goodsInfo in state.searchGoodsInfos.slice(0)"
                     :key="goodsInfo.id">
                     <div>
                         <img class="img_goods_card" :src="state.url + '/' + goodsInfo.picture">
-                    </div>
-                    <div style="margin: 18px;position: relative;">
-                        <div
-                            style="font-size: 18px;font-weight: 600;overflow: hidden;max-height: 56px;margin: 4px 0 2px 0;">
-                            {{
-        goodsInfo.name
-}}</div>
-                        <div style="font-size: 14px;font-weight: 300;position: absolute;bottom: 0;">{{
-        goodsInfo.userName
-}}</div>
-                    </div>
-                </div>
-            </div>
-
-            <div style="width: 374px; height: 366px; margin-left: auto; border-radius: 12px; margin: 18px 0 0 18px;
-                 ">
-                <div style="text-align: center;height: 198px;padding-top: 27.5%;">欢迎使用校园闲置电子产品交易平台！</div><br>
-
-                <div style="text-align: center;">
-                    <button class="text_user_caozuo" @click="toUserLogin">登录</button>
-                    <button class="text_user_caozuo" style="margin-left: 18px;" @click="toUserRegistered">注册</button>
-                </div><br>
-
-                <div style=" text-align: center; display: flex;margin-top: 5px;">
-                    <div style="margin-left: 65px;">
-                        <star-outlined style="cursor: pointer;" /><br>
-                        <text class="text_user_caozuo_more" style="cursor: pointer;">宝贝收藏</text>
-                    </div>
-                    <div style="margin-left: 39px;">
-                        <unordered-list-outlined style="cursor: pointer;" /><br>
-                        <text class="text_user_caozuo_more" style="cursor: pointer;">我的订单</text>
-                    </div>
-                    <div style="margin-left: 39px;">
-                        <appstore-outlined style="cursor: pointer;" /><br>
-                        <text class="text_user_caozuo_more" style="cursor: pointer;">商品管理</text>
-                    </div>
-                </div>
-            </div>
-
-            <div style="display: flex; width: 1194px;flex-wrap: wrap;">
-                <div class="div_goods_card" style="display: flex;" v-for="goodsInfo in state.goodsInfos.slice(4)"
-                    :key="goodsInfo.id">
-                    <div>
-                        <img class="img_goods_card" :src="state.url + '/' + goodsInfo.picture">·
                     </div>
                     <div style="margin: 18px;position: relative;">
                         <div
@@ -87,38 +42,38 @@
 
 <script lang="ts">
 import { defineComponent, reactive, onBeforeMount } from "vue";
-import { UnorderedListOutlined, AppstoreOutlined, StarOutlined } from '@ant-design/icons-vue';
 import router from "@/router";
 import { GoodsInfo } from "@/interface";
 import api from "../../api/api";
 import { message } from "ant-design-vue";
+import { useRoute } from "vue-router";
 
 interface state {
     goodsInfos: GoodsInfo[]
     url: string,
-    searchName: string
+    searchName: string,
+    searchGoodsInfos: GoodsInfo[]
 }
 
 export default defineComponent({
     name: "App",
 
-    components: {
-        StarOutlined,
-        UnorderedListOutlined,
-        AppstoreOutlined
-    },
-
     setup() {
         const state = reactive<state>({
             goodsInfos: [],
             url: process.env.VUE_APP_AXIOS_BASEURL,
-            searchName: ''
+            searchName: '',
+            searchGoodsInfos: []
         });
 
+        const route = useRoute();
+
         onBeforeMount(() => {
-            api.getAllGoodsOrderByDesc().then((res: any) => {
+            api.searchGoods({
+                name: route.query.name
+            }).then((res: any) => {
                 if (res.code == 200) {
-                    state.goodsInfos = res.data
+                    state.searchGoodsInfos = res.data
                 } else {
                     message.error(res.description)
                 }
@@ -130,12 +85,7 @@ export default defineComponent({
                 name: state.searchName
             }).then((res: any) => {
                 if (res.code == 200) {
-                    router.push({
-                        path: 'searchView',
-                        query: {
-                            name: state.searchName
-                        }
-                    })
+                    state.searchGoodsInfos = res.data
                 } else {
                     message.error(res.description)
                 }
