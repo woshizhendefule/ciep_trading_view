@@ -9,11 +9,12 @@
             <button class="button_sousuo" @click="searchGoods">搜索</button>
         </div>
         <div
-            style="background-color: #ffffff; width: 1194px; margin: auto; border-radius: 18px; display: flex; flex-wrap: wrap;min-height: 72vh;">
+            style="background-color: #ffffff; width: 1194px; margin: auto; border-radius: 18px; display: flex; flex-wrap: wrap;min-height: 74vh;">
 
             <div style="display: flex; width: 784px;flex-wrap: wrap;">
-                <div class="div_goods_card" style="display: flex;" v-for="goodsInfo in state.goodsInfos.slice(0, 4)"
-                    :key="goodsInfo.id">
+                <div class="div_goods_card" style="display: flex;cursor: pointer;"
+                    v-for="goodsInfo in state.goodsInfos.slice(0, 4)" :key="goodsInfo.id"
+                    @click="toGoodsView(goodsInfo.id)">
                     <div>
                         <img class="img_goods_card" :src="state.url + '/' + goodsInfo.picture">
                     </div>
@@ -41,9 +42,9 @@
                     </div>
                     <div v-else>
                         <text>Hi！</text>
-                        <text style="text-decoration: underline; cursor: pointer;" @click="toUserRegistered">{{
-        state.userInfo?.name
-}}</text>
+                        <text style="text-decoration: underline; cursor: pointer;" @click="toUserRegistered">
+                            {{ state.userInfo?.name }}
+                        </text>
                     </div>
 
                 </div><br>
@@ -65,8 +66,9 @@
             </div>
 
             <div style="display: flex; width: 1194px;flex-wrap: wrap;">
-                <div class="div_goods_card" style="display: flex;" v-for="goodsInfo in state.goodsInfos.slice(4)"
-                    :key="goodsInfo.id">
+                <div class="div_goods_card" style="display: flex;cursor: pointer;"
+                    v-for="goodsInfo in state.goodsInfos.slice(4)" :key="goodsInfo.id"
+                    @click="toGoodsView(goodsInfo.id)">
                     <div>
                         <img class="img_goods_card" :src="state.url + '/' + goodsInfo.picture">·
                     </div>
@@ -110,7 +112,7 @@ interface state {
 }
 
 export default defineComponent({
-    name: "App",
+    name: "homeView",
 
     components: {
         StarOutlined,
@@ -134,15 +136,15 @@ export default defineComponent({
                     message.error(res.description)
                 }
             })
-            api.toViewUserInfo().then((res: any) => {
-                if (res.code == 200) {
-                    state.userInfo = res.data
-                    console.log(state.userInfo);
-
-                } else {
-                    message.error(res.description)
-                }
-            })
+            if (localStorage.getItem('token') != null) {
+                api.toViewUserInfo().then((res: any) => {
+                    if (res.code == 200) {
+                        state.userInfo = res.data
+                    } else {
+                        message.error(res.description)
+                    }
+                })
+            }
         })
 
         function searchGoods() {
@@ -158,6 +160,15 @@ export default defineComponent({
                     })
                 } else {
                     message.error(res.description)
+                }
+            })
+        }
+
+        function toGoodsView(goodsInfoId: number) {
+            router.push({
+                path: 'goodsView',
+                query: {
+                    id: goodsInfoId
                 }
             })
         }
@@ -189,6 +200,7 @@ export default defineComponent({
         return {
             state,
             searchGoods,
+            toGoodsView,
             toHomeView,
             toUserLogin,
             toUserRegistered,
@@ -227,6 +239,10 @@ export default defineComponent({
     background-color: #f7f9fa;
     margin: 18px 0 0 18px;
     border-radius: 12px;
+}
+
+.div_goods_card:hover {
+    border: 1px solid #fd0338;
 }
 
 .img_goods_card {

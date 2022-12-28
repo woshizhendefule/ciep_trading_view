@@ -19,6 +19,9 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/userRetrievePassword', name: 'userRetrievePassword', component: () => import('../views/User/UserRetrievePassword.vue')
   },
+  {
+    path: '/goodsView', name: 'goodsView', component: () => import('../views/User/GoodsView.vue')
+  },
 
 
   {

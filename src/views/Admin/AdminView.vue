@@ -4,7 +4,7 @@
             <span style="display: flex;">
                 <h1 style="color: #fff;width: 350px;">校园闲置电子产品交易平台管理系统</h1>
                 <div style="flex: auto; text-align: right;">
-                    <button @click="toAdminLogin" style="background-color: #001529; color: #fff;;">注销</button>
+                    <button @click="toHomeView" style="background-color: #001529; color: #fff;;">注销</button>
                 </div>
             </span>
         </a-layout-header>
@@ -79,9 +79,9 @@ export default defineComponent({
         // const state = reactive<state>({});
 
 
-        function toAdminLogin() {
+        function toHomeView() {
             router.push({
-                name: 'adminLogin'
+                name: 'homeView'
             })
             localStorage.setItem('token', '')
         }
@@ -117,7 +117,7 @@ export default defineComponent({
         }
 
         return {
-            toAdminLogin,
+            toHomeView,
             toUserList,
             toGoodsList,
             toMessageList,

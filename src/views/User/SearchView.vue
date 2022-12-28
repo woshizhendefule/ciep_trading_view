@@ -12,7 +12,7 @@
             style="background-color: #ffffff; width: 1194px; margin: auto; border-radius: 18px; display: flex; flex-wrap: wrap;min-height: 75vh;">
             <div style="display: flex; width: 1194px;flex-wrap: wrap;">
                 <div class="div_goods_card" style="display: flex;" v-for="goodsInfo in state.searchGoodsInfos.slice(0)"
-                    :key="goodsInfo.id">
+                    :key="goodsInfo.id" @click="toGoodsView(goodsInfo.id)">
                     <div>
                         <img class="img_goods_card" :src="state.url + '/' + goodsInfo.picture">
                     </div>
@@ -28,7 +28,8 @@
                     </div>
                 </div>
             </div>
-            <div style="height: 18px; width: 100%;"></div>
+            <div style="height: 211px; width: 100%;" v-if="state.searchGoodsInfos.length <= 6"></div>
+            <div style="height: 18px; width: 100%;" v-if="state.searchGoodsInfos.length > 6"></div>
         </div>
         <div style="height: 60px; width: 100%;"></div>
         <div style="height: 30px; width: 100%;bottom: 0; position: fixed; background-color: #fff; line-height: 30px;">
@@ -49,7 +50,6 @@ import { message } from "ant-design-vue";
 import { useRoute } from "vue-router";
 
 interface state {
-    goodsInfos: GoodsInfo[]
     url: string,
     searchName: string,
     searchGoodsInfos: GoodsInfo[]
@@ -60,7 +60,6 @@ export default defineComponent({
 
     setup() {
         const state = reactive<state>({
-            goodsInfos: [],
             url: process.env.VUE_APP_AXIOS_BASEURL,
             searchName: '',
             searchGoodsInfos: []
@@ -98,15 +97,12 @@ export default defineComponent({
             })
         }
 
-        function toUserLogin() {
+        function toGoodsView(goodsInfoId: number) {
             router.push({
-                name: 'userLogin'
-            })
-        }
-
-        function toUserRegistered() {
-            router.push({
-                name: 'userRegistered'
+                path: 'goodsView',
+                query: {
+                    id: goodsInfoId
+                }
             })
         }
 
@@ -120,8 +116,7 @@ export default defineComponent({
             state,
             searchGoods,
             toHomeView,
-            toUserLogin,
-            toUserRegistered,
+            toGoodsView,
             toAdminLogin
         };
     },

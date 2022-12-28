@@ -77,10 +77,12 @@ export interface GoodsInfo {
 }
 
 export interface CollectionInfo {
+    goodsId: number;
     goodsName: string;
     goodsIntroduce: string;
     goodsPicture: string;
     goodsPrice: number;
+    userId: number;
     userName: string;
     userPhone: string;
 }
@@ -102,7 +104,9 @@ export interface GoodsOrderInfo {
 export interface MessageInfo {
     id: number;
     userId: number;
+    userName: string;
     goodsId: number;
+    goodsName: string;
     details: string;
     createTime: string;
     fatherMessageId: number;

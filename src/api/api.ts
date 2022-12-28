@@ -61,6 +61,9 @@ export default {
     toViewUserInfo() {
         return http.get(`/user/toViewUserInfo`)
     },
+    toViewGoods(params: any) {
+        return http.get(`/goods/toViewGoods?id=${params.id}`)
+    },
 
     getAllGoodsOrderByDesc() {
         return http.get(`/goods/getAllGoodsOrderByDesc`)
@@ -68,4 +71,23 @@ export default {
     searchGoods(params: any) {
         return http.get(`/goods/searchGoods?name=${params.name}`)
     },
+
+    getParentMessagesUser(params: any) {
+        return http.get(`/message/getParentMessagesUser?goodsId=${params.goodsId}`)
+    },
+    getChildMessagesUser(params: any) {
+        return http.get(`/message/getChildMessagesUser?goodsId=${params.goodsId}&fatherMessageId=${params.fatherMessageId}`)
+    },
+    postMessage(params: any) {
+        return http.post(`/message/postMessage?userId=${params.userId}&goodsId=${params.goodsId}&details=${params.details}&fatherMessageId=${params.fatherMessageId}&atUserId=${params.atUserId}`, params)
+    },
+
+    goodsCollection(params: any) {
+        return http.post(`/collection/goodsCollection?goodsId=${params.goodsId}`, params)
+    },
+
+    createOrders(params: any) {
+        return http.post(`/goods_order/createOrders?goodsId=${params.goodsId}`, params)
+    },
+
 }
