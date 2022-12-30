@@ -1,48 +1,44 @@
 <template>
     <a-layout style="height: 100%;">
-        <a-layout-header class="header">
+        <a-layout-header class="header" style="background-color: #fd0338;">
             <span style="display: flex;">
-                <h1 style="color: #fff;width: 350px;">校园闲置电子产品交易平台管理系统</h1>
+                <h1 style="color: #fff;width: 378px;">校园闲置电子产品交易平台个人管理中心</h1>
                 <div style="flex: auto; text-align: right;">
-                    <button @click="toHomeView" style="background-color: #001529; color: #fff;;">注销</button>
+                    <button @click="toHomeViewAndClearToken"
+                        style="background-color: #001529; color: #fff;background-color: #fd0338;border: #fd0338;">退出登录</button>
+                    <button @click="toHomeView"
+                        style="background-color: #001529; color: #fff;background-color: #fd0338;border: #fd0338;">返回首页</button>
                 </div>
             </span>
         </a-layout-header>
         <a-layout>
             <a-layout-sider width="200" style="background: #fff">
                 <a-menu :style="{ height: '100%', borderRight: 0, padding: '5px 10px' }">
-                    <a-menu-item key="1" @click="toUserList">
+                    <a-menu-item key="1" @click="toUserManage">
                         <span>
                             <user-outlined />
                             用户管理
                         </span>
                     </a-menu-item>
 
-                    <a-menu-item key="2" @click="toGoodsList">
+                    <a-menu-item key="2" @click="toCollectionManage">
                         <span>
-                            <appstore-outlined />
-                            商品管理
+                            <star-outlined />
+                            收藏管理
                         </span>
                     </a-menu-item>
 
-                    <a-menu-item key="3" @click="toMessageList">
-                        <span>
-                            <comment-outlined />
-                            留言管理
-                        </span>
-                    </a-menu-item>
-
-                    <a-menu-item key="4" @click="toEvaluationList">
-                        <span>
-                            <like-outlined />
-                            评价管理
-                        </span>
-                    </a-menu-item>
-
-                    <a-menu-item key="5" @click="toGoodsOrderList">
+                    <a-menu-item key="3" @click="toGoodsOrderManage">
                         <span>
                             <unordered-list-outlined />
                             订单管理
+                        </span>
+                    </a-menu-item>
+
+                    <a-menu-item key="4" @click="toGoodsManage">
+                        <span>
+                            <appstore-outlined />
+                            商品管理
                         </span>
                     </a-menu-item>
 
@@ -59,7 +55,7 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import { UserOutlined, AppstoreOutlined, CommentOutlined, LikeOutlined, UnorderedListOutlined } from '@ant-design/icons-vue';
+import { UserOutlined, AppstoreOutlined, StarOutlined, UnorderedListOutlined } from '@ant-design/icons-vue';
 import router from "@/router";
 
 // interface state {
@@ -67,64 +63,61 @@ import router from "@/router";
 // }
 
 export default defineComponent({
-    name: "adminview",
+    name: "userView",
 
     components: {
         UserOutlined,
         AppstoreOutlined,
-        CommentOutlined,
-        LikeOutlined,
+        StarOutlined,
         UnorderedListOutlined
     },
 
     setup() {
         // const state = reactive<state>({});
 
-
         function toHomeView() {
+            router.push({
+                name: 'homeView'
+            })
+        }
+        function toHomeViewAndClearToken() {
             router.push({
                 name: 'homeView'
             })
             localStorage.setItem('token', '')
         }
 
-        function toUserList() {
+        function toUserManage() {
             router.push({
-                name: 'userList'
+                name: 'userManage'
             })
         }
 
-        function toGoodsList() {
+        function toGoodsManage() {
             router.push({
-                name: 'goodsList'
+                name: 'goodsManage'
             })
         }
 
-        function toMessageList() {
+        function toCollectionManage() {
             router.push({
-                name: 'messageList'
+                name: 'collectionManage'
             })
         }
 
-        function toEvaluationList() {
+        function toGoodsOrderManage() {
             router.push({
-                name: 'evaluationList'
-            })
-        }
-
-        function toGoodsOrderList() {
-            router.push({
-                name: 'goodsOrderList'
+                name: 'goodsOrderManage'
             })
         }
 
         return {
             toHomeView,
-            toUserList,
-            toGoodsList,
-            toMessageList,
-            toEvaluationList,
-            toGoodsOrderList
+            toHomeViewAndClearToken,
+            toUserManage,
+            toGoodsManage,
+            toCollectionManage,
+            toGoodsOrderManage
         };
     },
 });

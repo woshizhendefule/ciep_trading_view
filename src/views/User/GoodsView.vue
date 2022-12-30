@@ -29,10 +29,18 @@
                         ￥{{ state.goodsInfo?.price }}
                     </div>
                 </div>
-                <div style="margin: 18px;height: 175px; width: 792px;">
-                    <button class="button_shoucang" @click="goodsCollection">
-                        收藏
-                    </button>
+                <div style="margin: 18px;height: 175px; width: 792px;display: flex;">
+                    <div v-if="forEachFlag()">
+                        <button class="button_yishoucang" @click="goodsCollection">
+                            已收藏
+                        </button>
+                    </div>
+                    <div v-else>
+                        <button class="button_shoucang" @click="goodsCollection">
+                            收&nbsp;&nbsp;藏
+                        </button>
+                    </div>
+
                     <button class="button_lijigoumai" @click="createOrders">
                         立即购买
                     </button>
@@ -126,7 +134,7 @@
 <script lang="ts">
 import { defineComponent, reactive, onBeforeMount, ref } from "vue";
 import router from "@/router";
-import { GoodsInfo, MessageInfo, UserInfo } from "@/interface";
+import { CollectionInfo, GoodsInfo, MessageInfo, UserInfo } from "@/interface";
 import api from "../../api/api";
 import { message } from "ant-design-vue";
 import { useRoute } from "vue-router";
@@ -141,7 +149,8 @@ interface state {
     messageInfoDetailsReplyFather: string | null,
     messageInfoDetailsReplyChild: string | null,
     replyMessageIndex: any[],
-    replyChildMessageIndex: any[]
+    replyChildMessageIndex: any[],
+    usersCollections: CollectionInfo[]
 }
 
 export default defineComponent({
@@ -159,6 +168,7 @@ export default defineComponent({
             messageInfoDetailsReplyChild: '',
             replyMessageIndex: [],
             replyChildMessageIndex: [],
+            usersCollections: []
         });
 
         const visible = ref<boolean>(
@@ -168,13 +178,15 @@ export default defineComponent({
         const route = useRoute();
 
         onBeforeMount(() => {
-            api.toViewUserInfo().then((res: any) => {
-                if (res.code == 200) {
-                    state.userInfo = res.data
-                } else {
-                    message.error(res.description)
-                }
-            })
+            if (localStorage.getItem('token') != '' && localStorage.getItem('token') != undefined) {
+                api.toViewUserInfo().then((res: any) => {
+                    if (res.code == 200) {
+                        state.userInfo = res.data
+                    } else {
+                        message.error(res.description)
+                    }
+                })
+            }
             api.toViewGoods({
                 id: route.query.id
             }).then((res: any) => {
@@ -198,6 +210,15 @@ export default defineComponent({
                     message.error(res.description)
                 }
             })
+            if (localStorage.getItem('token') != '' && localStorage.getItem('token') != undefined) {
+                api.getUsersCollection().then((res: any) => {
+                    if (res.code == 200) {
+                        state.usersCollections = res.data
+                    } else {
+                        message.error(res.description)
+                    }
+                })
+            }
         })
 
         function toHomeView() {
@@ -306,7 +327,7 @@ export default defineComponent({
                 if (res.code == 200) {
                     message.success('收藏成功！')
                 } else {
-                    message.error('您已收藏该商品！')
+                    message.error(res.description)
                 }
             })
         }
@@ -317,10 +338,23 @@ export default defineComponent({
             }).then((res: any) => {
                 if (res.code == 200) {
                     message.success('成功创建订单！')
+                    router.push({
+                        name: 'goodsOrderManage'
+                    })
                 } else {
-                    message.error('您的订单已存在该商品！')
+                    message.error(res.description)
                 }
             })
+        }
+
+        function forEachFlag() {
+            let flag = false
+            state.usersCollections.forEach((collectionInfo: CollectionInfo) => {
+                if (collectionInfo.goodsId == state.goodsInfo?.id) {
+                    flag = true
+                }
+            })
+            return flag
         }
 
         return {
@@ -336,7 +370,8 @@ export default defineComponent({
             replyMessage,
             replyChildMessage,
             goodsCollection,
-            createOrders
+            createOrders,
+            forEachFlag
         };
     },
 });
@@ -375,11 +410,27 @@ export default defineComponent({
     cursor: pointer;
 }
 
+.button_yishoucang {
+    margin-right: 10px;
+    border-radius: 21px;
+    height: 42px;
+    width: 84px;
+    font-size: 18px;
+    font-weight: 500;
+    border: solid #eae8eb;
+    background-color: #eae8eb;
+    color: #fff;
+    cursor: pointer;
+    position: relative;
+    top: 151px;
+    left: 599px;
+}
+
 .button_shoucang {
     margin-right: 10px;
     border-radius: 21px;
     height: 42px;
-    width: 68px;
+    width: 84px;
     font-size: 18px;
     font-weight: 500;
     border: solid #fd0338;
@@ -388,7 +439,7 @@ export default defineComponent({
     cursor: pointer;
     position: relative;
     top: 151px;
-    left: 616px;
+    left: 599px;
 }
 
 .button_lijigoumai {
@@ -404,7 +455,7 @@ export default defineComponent({
     cursor: pointer;
     position: relative;
     top: 151px;
-    left: 616px;
+    left: 599px;
 }
 
 .div_lanyanqiuAndLiuyan {

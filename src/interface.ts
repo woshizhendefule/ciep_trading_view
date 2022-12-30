@@ -77,6 +77,7 @@ export interface GoodsInfo {
 }
 
 export interface CollectionInfo {
+    id: number;
     goodsId: number;
     goodsName: string;
     goodsIntroduce: string;

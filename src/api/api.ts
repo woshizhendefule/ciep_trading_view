@@ -38,8 +38,8 @@ export default {
         return http.post(`/message/deleteMessage?id=${params.id}`, params)
     },
 
-    getUsersGoodsOrder() {
-        return http.get(`/goods_order/getUsersGoodsOrder`)
+    getAllGoodsOrder() {
+        return http.get(`/goods_order/getAllGoodsOrder`)
     },
     deleteComments(params: any) {
         return http.post(`/goods_order/deleteComments?id=${params.id}`, params)
@@ -88,6 +88,52 @@ export default {
 
     createOrders(params: any) {
         return http.post(`/goods_order/createOrders?goodsId=${params.goodsId}`, params)
+    },
+
+    modifyUserName(params: any) {
+        return http.post(`/user/modifyUserName?newName=${params.newName}`, params)
+    },
+    modifyUserPhone(params: any) {
+        return http.post(`/user/modifyUserPhone?newPhone=${params.newPhone}`, params)
+    },
+    changePassword(params: any) {
+        return http.post(`/user/changePassword?newPassword=${params.newPassword}`, params)
+    },
+    sellerQualificationApply() {
+        return http.get(`/user/sellerQualificationApply`)
+    },
+
+    getUsersCollection() {
+        return http.get(`/collection/getUsersCollection`)
+    },
+    deleteCollection(params: any) {
+        return http.post(`/collection/deleteCollection?id=${params.id}`, params)
+    },
+
+    getUsersGoods() {
+        return http.get(`/goods/getUsersGoods`)
+    },
+
+    getGoodsUsersGoodsOrder(params: any) {
+        return http.get(`/goods_order/getGoodsUsersGoodsOrder?goodsUserId=${params.goodsUserId}`)
+    },
+    getUsersGoodsOrder(params: any) {
+        return http.get(`/goods_order/getUsersGoodsOrder?userId=${params.userId}`)
+    },
+
+    completeOrders(params: any) {
+        return http.post(`/goods_order/completeOrders?id=${params.id}`, params)
+    },
+
+    commentGoodsUser(params: any) {
+        return http.post(`/goods_order/commentGoodsUser?id=${params.id}&goodsUserScore=${params.goodsUserScore}&goodsUserEvaluation=${params.goodsUserEvaluation}`, params)
+    },
+    commentUser(params: any) {
+        return http.post(`/goods_order/commentUser?id=${params.id}&userScore=${params.userScore}&userEvaluation=${params.userEvaluation}`, params)
+    },
+
+    cancelOrdersApply(params: any) {
+        return http.post(`/goods_order/cancelOrdersApply?id=${params.id}`, params)
     },
 
 }

@@ -42,7 +42,7 @@
                     </div>
                     <div v-else>
                         <text>Hi！</text>
-                        <text style="text-decoration: underline; cursor: pointer;" @click="toUserRegistered">
+                        <text style="text-decoration: underline; cursor: pointer;" @click="toUserView">
                             {{ state.userInfo?.name }}
                         </text>
                     </div>
@@ -51,16 +51,18 @@
 
                 <div style=" text-align: center; display: flex;margin-top: 5px;">
                     <div style="margin-left: 65px;">
-                        <star-outlined style="cursor: pointer;" /><br>
-                        <text class="text_user_caozuo_more" style="cursor: pointer;">宝贝收藏</text>
+                        <star-outlined style="cursor: pointer;" @click="toCollectionManage" /><br>
+                        <text class="text_user_caozuo_more" style="cursor: pointer;"
+                            @click="toCollectionManage">宝贝收藏</text>
                     </div>
                     <div style="margin-left: 39px;">
-                        <unordered-list-outlined style="cursor: pointer;" /><br>
-                        <text class="text_user_caozuo_more" style="cursor: pointer;">我的订单</text>
+                        <unordered-list-outlined style="cursor: pointer;" @click="toGoodsOrderManage" /><br>
+                        <text class="text_user_caozuo_more" style="cursor: pointer;"
+                            @click="toGoodsOrderManage">我的订单</text>
                     </div>
                     <div style="margin-left: 39px;">
-                        <appstore-outlined style="cursor: pointer;" /><br>
-                        <text class="text_user_caozuo_more" style="cursor: pointer;">商品管理</text>
+                        <appstore-outlined style="cursor: pointer;" @click="toGoodsManage" /><br>
+                        <text class="text_user_caozuo_more" style="cursor: pointer;" @click="toGoodsManage">商品管理</text>
                     </div>
                 </div>
             </div>
@@ -136,7 +138,7 @@ export default defineComponent({
                     message.error(res.description)
                 }
             })
-            if (localStorage.getItem('token') != null) {
+            if (localStorage.getItem('token') != '' && localStorage.getItem('token') != undefined) {
                 api.toViewUserInfo().then((res: any) => {
                     if (res.code == 200) {
                         state.userInfo = res.data
@@ -197,6 +199,28 @@ export default defineComponent({
             })
         }
 
+        function toUserView() {
+            router.push('userView')
+        }
+
+        function toCollectionManage() {
+            router.push({
+                name: 'collectionManage'
+            })
+        }
+
+        function toGoodsManage() {
+            router.push({
+                name: 'goodsManage'
+            })
+        }
+
+        function toGoodsOrderManage() {
+            router.push({
+                name: 'goodsOrderManage'
+            })
+        }
+
         return {
             state,
             searchGoods,
@@ -204,7 +228,11 @@ export default defineComponent({
             toHomeView,
             toUserLogin,
             toUserRegistered,
-            toAdminLogin
+            toAdminLogin,
+            toUserView,
+            toCollectionManage,
+            toGoodsManage,
+            toGoodsOrderManage
         };
     },
 });

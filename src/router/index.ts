@@ -22,6 +22,15 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/goodsView', name: 'goodsView', component: () => import('../views/User/GoodsView.vue')
   },
+  {
+    path: '/userView', name: 'userView', component: () => import('../views/User/UserView.vue'),
+    children: [
+      { path: '', name: 'userManage', component: () => import('../components/UserManage.vue') },
+      { path: 'collectionManage', name: 'collectionManage', component: () => import('../components/CollectionManage.vue') },
+      { path: 'goodsManage', name: 'goodsManage', component: () => import('../components/GoodsManage.vue') },
+      { path: 'goodsOrderManage', name: 'goodsOrderManage', component: () => import('../components/GoodsOrderManage.vue') },
+    ]
+  },
 
 
   {

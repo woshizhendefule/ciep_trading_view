@@ -37,7 +37,7 @@ export default defineComponent({
         });
 
         onBeforeMount(() => {
-            api.getUsersGoodsOrder().then((res: any) => {
+            api.getAllGoodsOrder().then((res: any) => {
                 if (res.code == 200) {
                     state.goodsOrders = res.data
                 } else {
