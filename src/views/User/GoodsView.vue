@@ -8,12 +8,26 @@
         <div class="div_main_imgAndUserName">
             <div style="height: 577px;">
                 <img class="img_goods_picture" :src="state.url + '/' + state.goodsInfo?.picture"><br>
-                <a-image :width="200" :style="{ display: 'none' }" :preview="{ visible, onVisibleChange: setVisible }"
-                    :src="state.url + '/' + state.goodsInfo?.credential" />
+
+
+                <div>
+                    <div v-if="state.goodsInfo?.credential != null">
+                        <a-button style="margin: 18px 0 0 18px;" type="primary"
+                            @click="() => setVisible(true)">此商品凭证</a-button>
+                        <a-image :width="200" :style="{ display: 'none' }"
+                            :preview="{ visible, onVisibleChange: setVisible }"
+                            :src="state.url + '/' + state.goodsInfo?.credential" />
+                    </div>
+                    <div v-else
+                        style="margin: 18px 0 0 18px; font-size: 14px; font-weight: 400; height: 32px; color: #00000050;">
+                        暂无凭证
+                    </div>
+                </div>
+
                 <div class="div_main_userName">
                     {{ state.goodsInfo?.userName }}
                 </div>
-                <div style="font-size: 18px; font-weight: 300; position: relative; top: 135px;left: 18px;">
+                <div style="font-size: 18px; font-weight: 300; position: relative; top: 105px;left: 18px;">
                     卖家评分: {{ state.goodsInfo?.goodsUserScore }}
                 </div>
             </div>
@@ -400,7 +414,7 @@ export default defineComponent({
     font-size: 18px;
     font-weight: 300;
     position: relative;
-    top: 121px;
+    top: 98px;
     left: 18px;
 }
 
