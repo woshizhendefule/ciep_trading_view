@@ -1,4 +1,25 @@
 <template>
+    <a-button type="primary" @click="showModal1" style="position: relative; left: 1293px; bottom: 10px;">发布商品</a-button>
+    <a-modal v-model:visible="visible1" title="发布商品" @ok="releaseGoods()">
+        <a-input v-model:value="state.releaseGoodssName" :bordered="false" placeholder="请输入商品名称" /><br><br>
+        <a-input v-model:value="state.releaseGoodssIntroduce" :bordered="false" placeholder="请输入商品介绍" /><br><br>
+        <a-input v-model:value="state.releaseGoodssPrice" :bordered="false" placeholder="请输入商品价格" /><br><br>
+
+        <a-upload name="file" :maxCount="1" :action="(file: any) => { state.releaseGoodssPicture = file }">
+            <a-button>
+                <upload-outlined />
+                点击上传商品图片
+            </a-button>
+        </a-upload>
+
+        <a-upload name="file" :maxCount="1" :action="(file: any) => { state.releaseGoodssCredential = file }"><br>
+            <a-button>
+                <upload-outlined />
+                点击上传商品凭证
+            </a-button>
+        </a-upload>
+    </a-modal>
+
     <a-table class="ant-table-striped" size="middle" :columns="columns" :data-source="state.usersGoodss"
         :row-class-name="(_record: any, index: any) => (index % 2 === 1 ? 'table-striped' : null)" bordered>
         <template #bodyCell="{ column, record }">
@@ -17,6 +38,36 @@
                 <div v-else style="color: #00000050;">暂无凭证</div>
             </template>
             <template v-if="column.dataIndex == 'caozuo'">
+
+                <a-button type="primary" @click="showModal(record.id)" style="margin-right: 10px;">修改商品</a-button>
+                <a-modal v-model:visible="state.visible[record.id]" title="修改商品" @ok="modifyGoods(record)">
+
+                    <a-input v-model:value="state.modifyGoodssName" :bordered="false"
+                        :placeholder="findValue(record)?.name" /><br><br>
+
+                    <a-input v-model:value="state.modifyGoodssIntroduce" :bordered="false"
+                        :placeholder="findValue(record)?.introduce" /><br><br>
+
+                    <a-input v-model:value="state.modifyGoodssPrice" :bordered="false"
+                        :placeholder="findValue(record)?.price" /><br><br>
+
+                    <a-upload name="file" :maxCount="1" :action="(file: any) => { state.modifyGoodssPicture = file }">
+                        <a-button>
+                            <upload-outlined />
+                            点击上传修改的商品图片
+                        </a-button>
+                    </a-upload>
+
+                    <a-upload name="file" :maxCount="1"
+                        :action="(file: any) => { state.modifyGoodssCredential = file }"><br>
+                        <a-button>
+                            <upload-outlined />
+                            点击上传修改的商品凭证
+                        </a-button>
+                    </a-upload>
+
+                </a-modal>
+
                 <a-button danger style="margin-right: 10px;" @click="deleteGoods(record)">删除商品</a-button>
             </template>
         </template>
@@ -26,23 +77,58 @@
 <script lang="ts">
 import { Goods } from "@/interface";
 import api from "../api/api"
-import { defineComponent, reactive, onBeforeMount } from "vue";
+import { defineComponent, reactive, onBeforeMount, ref } from "vue";
 import { message } from "ant-design-vue";
+import { UploadOutlined } from '@ant-design/icons-vue';
 
 interface state {
     usersGoodss: Goods[]
-    url: string
+    url: string,
+    modifyGoodssName: string,
+    modifyGoodssIntroduce: string,
+    modifyGoodssPrice: any,
+    modifyGoodssPicture: any,
+    modifyGoodssCredential: any,
+
+    releaseGoodssName: string,
+    releaseGoodssIntroduce: string,
+    releaseGoodssPrice: any,
+    releaseGoodssPicture: any,
+    releaseGoodssCredential: any
+
+    visible: boolean[]
 }
 
 export default defineComponent({
     name: "goodsManage",
 
+    components: {
+        UploadOutlined,
+    },
+
     setup() {
 
         const state = reactive<state>({
             usersGoodss: [],
-            url: process.env.VUE_APP_AXIOS_BASEURL
+            url: process.env.VUE_APP_AXIOS_BASEURL,
+            modifyGoodssName: '',
+            modifyGoodssIntroduce: '',
+            modifyGoodssPrice: undefined,
+            modifyGoodssPicture: undefined,
+            modifyGoodssCredential: undefined,
+
+            releaseGoodssName: '',
+            releaseGoodssIntroduce: '',
+            releaseGoodssPrice: undefined,
+            releaseGoodssPicture: undefined,
+            releaseGoodssCredential: undefined,
+            visible: []
         });
+
+
+        const visible1 = ref<boolean>(
+            false
+        );
 
         onBeforeMount(() => {
             api.getUsersGoods().then((res: any) => {
@@ -50,6 +136,7 @@ export default defineComponent({
                     state.usersGoodss = res.data
                     state.usersGoodss.forEach((goods: Goods) => {
                         goods.releaseTime = goods.releaseTime.split('T')[0] + ' ' + goods.releaseTime.split('T')[1].split('.')[0]
+                        state.visible[goods.id] = false
                     })
                 } else {
                     message.error('您不是卖家，请在交易后，提交卖家资质申请！')
@@ -57,6 +144,61 @@ export default defineComponent({
             })
         })
 
+        const showModal = (id: number) => {
+            state.visible[id] = true;
+        };
+
+        const showModal1 = () => {
+            visible1.value = true;
+        };
+
+        function modifyGoods(record: Goods) {
+            if (record.credential == undefined && state.releaseGoodssPrice >= 800 && state.releaseGoodssCredential == undefined) {
+                message.error('在金额超过800元时，需要您上传商品凭证！')
+                return
+            }
+            let formData = new FormData();
+            formData.append("id", record.id)
+            formData.append("name", state.modifyGoodssName)
+            formData.append("introduce", state.modifyGoodssIntroduce)
+            formData.append("price", state.modifyGoodssPrice)
+            formData.append("picture", state.modifyGoodssPicture)
+
+            formData.append("credential", state.modifyGoodssCredential)
+            api.modifyGoods({
+                formData: formData
+            }).then((res: any) => {
+                if (res.code == 200) {
+                    message.success('修改成功！')
+                    window.location.reload()
+                } else {
+                    message.error(res.description)
+                }
+            })
+        }
+
+        function releaseGoods() {
+            if (state.releaseGoodssPrice >= 800 && state.releaseGoodssCredential == undefined) {
+                message.error('在金额超过800元时，需要您上传商品凭证！')
+                return
+            }
+            let formData = new FormData();
+            formData.append("name", state.releaseGoodssName)
+            formData.append("introduce", state.releaseGoodssIntroduce)
+            formData.append("price", state.releaseGoodssPrice)
+            formData.append("picture", state.releaseGoodssPicture)
+            formData.append("credential", state.releaseGoodssCredential)
+            api.releaseGoods({
+                formData: formData
+            }).then((res: any) => {
+                if (res.code == 200) {
+                    message.success('发布成功！')
+                    window.location.reload()
+                } else {
+                    message.error(res.description)
+                }
+            })
+        }
 
         function deleteGoods(record: Goods) {
             api.deleteGoods({
@@ -68,6 +210,15 @@ export default defineComponent({
                     message.error(res.description)
                 }
             })
+        }
+
+        function beforeUpload(file: any) {
+            console.log(file);
+        }
+
+        function findValue(record: Goods) {
+            console.log(record);
+            return state.usersGoodss.find((value: Goods) => value.id == record.id)
         }
 
         const columns = [
@@ -84,7 +235,14 @@ export default defineComponent({
         return {
             state,
             columns,
-            deleteGoods
+            modifyGoods,
+            deleteGoods,
+            releaseGoods,
+            visible1,
+            showModal,
+            showModal1,
+            beforeUpload,
+            findValue
         };
     },
 

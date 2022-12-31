@@ -136,4 +136,10 @@ export default {
         return http.post(`/goods_order/cancelOrdersApply?id=${params.id}`, params)
     },
 
+    modifyGoods(params: any) {
+        return http.post(`/goods/modifyGoods`, params.formData)
+    },
+    releaseGoods(params: any) {
+        return http.post(`/goods/releaseGoods`, params.formData)
+    }
 }

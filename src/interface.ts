@@ -10,7 +10,7 @@ export interface User {
 }
 
 export interface Goods {
-    id: number;
+    id: any;
     name: string;
     introduce: string;
     picture: string;
