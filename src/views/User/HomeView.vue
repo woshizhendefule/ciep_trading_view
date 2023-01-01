@@ -21,12 +21,11 @@
                     <div style="margin: 18px;position: relative;">
                         <div
                             style="font-size: 18px;font-weight: 600;overflow: hidden;max-height: 56px;margin: 4px 0 2px 0;">
-                            {{
-        goodsInfo.name
-}}</div>
-                        <div style="font-size: 14px;font-weight: 300;position: absolute;bottom: 0;">{{
-        goodsInfo.userName
-}}</div>
+                            {{ goodsInfo.name }}
+                        </div>
+                        <div style="font-size: 14px;font-weight: 300;position: absolute;bottom: 0;">
+                            {{ goodsInfo.userName }}
+                        </div>
                     </div>
                 </div>
             </div>
@@ -77,12 +76,11 @@
                     <div style="margin: 18px;position: relative;">
                         <div
                             style="font-size: 18px;font-weight: 600;overflow: hidden;max-height: 56px;margin: 4px 0 2px 0;">
-                            {{
-        goodsInfo.name
-}}</div>
-                        <div style="font-size: 14px;font-weight: 300;position: absolute;bottom: 0;">{{
-        goodsInfo.userName
-}}</div>
+                            {{ goodsInfo.name }}
+                        </div>
+                        <div style="font-size: 14px;font-weight: 300;position: absolute;bottom: 0;">
+                            {{ goodsInfo.userName }}
+                        </div>
                     </div>
                 </div>
             </div>

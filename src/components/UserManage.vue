@@ -47,7 +47,7 @@
 <script lang="ts">
 import { defineComponent, reactive, ref, onBeforeMount } from "vue";
 import api from "../api/api";
-import { UserInfo } from "@/interface";
+import { UserInfo, GoodsOrder } from "@/interface";
 import { message } from "ant-design-vue";
 import router from "@/router";
 
@@ -55,7 +55,8 @@ interface state {
     userInfo: UserInfo | undefined,
     inputNewPhone: string
     inputNewName: string,
-    inputNewPassword: string
+    inputNewPassword: string,
+    goodsOrders: GoodsOrder[]
 }
 
 export default defineComponent({
@@ -66,7 +67,8 @@ export default defineComponent({
             userInfo: undefined,
             inputNewPhone: '',
             inputNewName: '',
-            inputNewPassword: ''
+            inputNewPassword: '',
+            goodsOrders: []
         });
 
         const visible = ref<boolean>(
@@ -89,7 +91,20 @@ export default defineComponent({
                 } else {
                     message.error(res.description)
                 }
+            }).finally(() => {
+                if (state.userInfo?.isSeller != 1) {
+                    api.getUsersGoodsOrder({
+                        userId: state.userInfo?.id
+                    }).then((res: any) => {
+                        if (res.code == 200) {
+                            state.goodsOrders = res.data
+                        } else {
+                            message.error(res.description)
+                        }
+                    })
+                }
             })
+
         })
 
         const showModal = () => {
@@ -154,6 +169,10 @@ export default defineComponent({
         }
 
         function sellerQualificationApply() {
+            if (state.goodsOrders.length == 0 || state.goodsOrders[0].userScore == -1 || state.goodsOrders[0].userEvaluation == '') {
+                message.error('请在交易后，提交卖家资质申请！')
+                return
+            }
             api.sellerQualificationApply().then((res: any) => {
                 if (res.code == 200) {
                     message.success('申请成功！')

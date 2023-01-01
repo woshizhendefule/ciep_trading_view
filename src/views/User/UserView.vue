@@ -4,10 +4,11 @@
             <span style="display: flex;">
                 <h1 style="color: #fff;width: 378px;">校园闲置电子产品交易平台个人管理中心</h1>
                 <div style="flex: auto; text-align: right;">
-                    <button @click="toHomeViewAndClearToken"
-                        style="background-color: #001529; color: #fff;background-color: #fd0338;border: #fd0338;">退出登录</button>
+                    <a-popconfirm title="您确定要退出登录吗？" ok-text="确定" cancel-text="取消" @confirm="confirm" @cancel="cancel">
+                        <a href="#">退出登录</a>
+                    </a-popconfirm>
                     <button @click="toHomeView"
-                        style="background-color: #001529; color: #fff;background-color: #fd0338;border: #fd0338;">返回首页</button>
+                        style="background-color: #001529; color: #fff;background-color: #fd0338;border: #fd0338;margin-left: 18px;">返回首页</button>
                 </div>
             </span>
         </a-layout-header>
@@ -57,6 +58,7 @@
 import { defineComponent } from "vue";
 import { UserOutlined, AppstoreOutlined, StarOutlined, UnorderedListOutlined } from '@ant-design/icons-vue';
 import router from "@/router";
+import { message } from "ant-design-vue";
 
 // interface state {
 
@@ -74,6 +76,16 @@ export default defineComponent({
 
     setup() {
         // const state = reactive<state>({});
+
+        const confirm = (e: MouseEvent) => {
+            toHomeViewAndClearToken()
+            console.log(e);
+            message.info('退出登录！');
+        };
+
+        const cancel = () => {
+            message.info('取消退出登录！');
+        };
 
         function toHomeView() {
             router.push({
@@ -112,6 +124,8 @@ export default defineComponent({
         }
 
         return {
+            confirm,
+            cancel,
             toHomeView,
             toHomeViewAndClearToken,
             toUserManage,

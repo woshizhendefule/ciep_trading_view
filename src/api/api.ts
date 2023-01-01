@@ -141,5 +141,8 @@ export default {
     },
     releaseGoods(params: any) {
         return http.post(`/goods/releaseGoods`, params.formData)
+    },
+    againReleaseGoods(params: any) {
+        return http.post(`/goods/againReleaseGoods?id=${params.id}`, params)
     }
 }

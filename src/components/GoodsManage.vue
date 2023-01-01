@@ -8,14 +8,14 @@
         <a-upload name="file" :maxCount="1" :action="(file: any) => { state.releaseGoodssPicture = file }">
             <a-button>
                 <upload-outlined />
-                点击上传商品图片
+                点击上传商品图片（尽量为正方形图片，便于展示）
             </a-button>
         </a-upload>
 
         <a-upload name="file" :maxCount="1" :action="(file: any) => { state.releaseGoodssCredential = file }"><br>
             <a-button>
                 <upload-outlined />
-                点击上传商品凭证
+                点击上传商品凭证（注意个人隐私保护）
             </a-button>
         </a-upload>
     </a-modal>
@@ -67,6 +67,9 @@
                     </a-upload>
 
                 </a-modal>
+
+                <a-button type="primary" style="margin-right: 10px;" @click="againReleaseGoods(record)"
+                    :disabled="record.isRelease != 1">重新发布</a-button>
 
                 <a-button danger style="margin-right: 10px;" @click="deleteGoods(record)">删除商品</a-button>
             </template>
@@ -212,6 +215,22 @@ export default defineComponent({
             })
         }
 
+        function againReleaseGoods(record: Goods) {
+            if (record.credential == undefined && record.price >= 800) {
+                message.error('在金额超过800元时，需要您上传商品凭证！')
+                return
+            }
+            api.againReleaseGoods({
+                id: record.id
+            }).then((res: any) => {
+                if (res.code == 200) {
+                    window.location.reload()
+                } else {
+                    message.error(res.description)
+                }
+            })
+        }
+
         function beforeUpload(file: any) {
             console.log(file);
         }
@@ -242,7 +261,8 @@ export default defineComponent({
             showModal,
             showModal1,
             beforeUpload,
-            findValue
+            findValue,
+            againReleaseGoods
         };
     },
 

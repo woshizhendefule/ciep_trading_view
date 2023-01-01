@@ -5,14 +5,23 @@
             <template v-if="column.dataIndex == 'caozuo'">
                 <a-button danger style="margin-right: 10px;" @click="deleteComments(record)">删除评价</a-button>
             </template>
+            <template v-if="column.dataIndex == 'goodsUserScore'">
+                <div v-if="record.goodsUserScore != -1"> {{ record.goodsUserScore }}</div>
+                <div v-else style="color: #00000050;">暂无评分</div>
+            </template>
             <template v-if="column.dataIndex == 'goodsUserEvaluation'">
-                <div v-if="record.goodsUserEvaluation != null"> {{ record.goodsUserEvaluation }}</div>
+                <div v-if="record.goodsUserEvaluation != ''"> {{ record.goodsUserEvaluation }}</div>
                 <div v-else style="color: #00000050;">暂无评价</div>
+            </template>
+            <template v-if="column.dataIndex == 'userScore'">
+                <div v-if="record.userScore != -1"> {{ record.userScore }}</div>
+                <div v-else style="color: #00000050;">暂无评分</div>
             </template>
             <template v-if="column.dataIndex == 'userEvaluation'">
-                <div v-if="record.userEvaluation != null"> {{ record.userEvaluation }}</div>
+                <div v-if="record.userEvaluation != ''"> {{ record.userEvaluation }}</div>
                 <div v-else style="color: #00000050;">暂无评价</div>
             </template>
+
         </template>
     </a-table>
 </template>
@@ -52,10 +61,10 @@ export default defineComponent({
             }).then((res: any) => {
                 if (res.code == 200) {
                     let index = state.goodsOrders.lastIndexOf(record)
-                    state.goodsOrders[index].goodsUserScore = 0
-                    state.goodsOrders[index].goodsUserEvaluation = null
-                    state.goodsOrders[index].userScore = 0
-                    state.goodsOrders[index].userEvaluation = null
+                    state.goodsOrders[index].goodsUserScore = -1
+                    state.goodsOrders[index].goodsUserEvaluation = ''
+                    state.goodsOrders[index].userScore = -1
+                    state.goodsOrders[index].userEvaluation = ''
                 } else {
                     message.error(res.description)
                 }

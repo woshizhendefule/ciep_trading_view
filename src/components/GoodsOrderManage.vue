@@ -13,7 +13,7 @@
                     <a-button danger style="margin-right: 10px;" :disabled="!(record.status == 0)"
                         @click="completeOrders(record)">完成订单</a-button>
                     <a-button type="primary" @click="showModal" style="margin: 0 0 10px 0;"
-                        :disabled="!(record.status == 1) || record.goodsUserEvaluation != null">对卖家评价</a-button>
+                        :disabled="!(record.status == 1) || record.goodsUserEvaluation != ''">对卖家评价</a-button>
                     <a-modal v-model:visible="visible" title="修改用户名" @ok="commentGoodsUser(record)">
                         <a-input v-model:value="state.inputGoodsUserScore" :bordered="false"
                             placeholder="请输入本次交易的评分（五分制）" />
@@ -28,11 +28,11 @@
                     <div v-else style="color: #00000050;">订单暂未完成</div>
                 </template>
                 <template v-if="column.dataIndex == 'goodsUserEvaluation'">
-                    <div v-if="record.goodsUserEvaluation != null"> {{ record.goodsUserEvaluation }}</div>
+                    <div v-if="record.goodsUserEvaluation != ''"> {{ record.goodsUserEvaluation }}</div>
                     <div v-else style="color: #00000050;">暂无评价</div>
                 </template>
                 <template v-if="column.dataIndex == 'goodsUserScore'">
-                    <div v-if="record.userEvaluation != null"> {{ record.goodsUserScore }}</div>
+                    <div v-if="record.goodsUserScore != -1"> {{ record.goodsUserScore }}</div>
                     <div v-else style="color: #00000050;">暂无评分</div>
                 </template>
             </template>
@@ -50,7 +50,7 @@
                 </template>
                 <template v-if="column.dataIndex == 'caozuo'">
                     <a-button type="primary" @click="showModal1" style="margin: 0;margin-right: 10px;"
-                        :disabled="!(record.status == 1) || record.userEvaluation != null">对买家评价</a-button>
+                        :disabled="!(record.status == 1) || record.userEvaluation != ''">对买家评价</a-button>
                     <a-modal v-model:visible="visible1" title="修改用户名" @ok="commentUser(record)">
                         <a-input v-model:value="state.inputUserScore" :bordered="false" placeholder="请输入本次交易的评分（五分制）" />
                         <a-input v-model:value="state.inputUserEvaluation" :bordered="false" placeholder="请输入本次交易的评价" />
@@ -62,11 +62,11 @@
                     <div v-else style="color: #00000050;">订单暂未完成</div>
                 </template>
                 <template v-if="column.dataIndex == 'userEvaluation'">
-                    <div v-if="record.userEvaluation != null"> {{ record.userEvaluation }}</div>
+                    <div v-if="record.userEvaluation != ''"> {{ record.userEvaluation }}</div>
                     <div v-else style="color: #00000050;">暂无评价</div>
                 </template>
                 <template v-if="column.dataIndex == 'userScore'">
-                    <div v-if="record.userEvaluation != null"> {{ record.userScore }}</div>
+                    <div v-if="record.userScore != -1"> {{ record.userScore }}</div>
                     <div v-else style="color: #00000050;">暂无评分</div>
                 </template>
             </template>
@@ -184,7 +184,7 @@ export default defineComponent({
                 id: record.id
             }).then((res: any) => {
                 if (res.code == 200) {
-                    state.goodsOrders[state.goodsOrders.lastIndexOf(record)].status = 1
+                    window.location.reload()
                 } else {
                     message.error(res.description)
                 }
