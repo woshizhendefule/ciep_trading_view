@@ -21,7 +21,8 @@
                     @click="releaseQualificationCheckPass(record)">审核通过</a-button>
                 <a-button style="margin-right: 10px;" :disabled="!(record.isRelease == 2)"
                     @click="releaseQualificationCheckNotPass(record)">审核未通过</a-button>
-                <a-button danger style="margin-right: 10px;" @click="deleteGoods(record)">删除商品</a-button>
+                <a-button danger style="margin-right: 10px;" @click="deleteGoods(record)"
+                    :disabled="record.isRelease == 3">删除商品</a-button>
             </template>
         </template>
     </a-table>

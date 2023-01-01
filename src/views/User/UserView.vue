@@ -4,7 +4,7 @@
             <span style="display: flex;">
                 <h1 style="color: #fff;width: 378px;">校园闲置电子产品交易平台个人管理中心</h1>
                 <div style="flex: auto; text-align: right;">
-                    <a-popconfirm title="您确定要退出登录吗？" ok-text="确定" cancel-text="取消" @confirm="confirm" @cancel="cancel">
+                    <a-popconfirm title="您确定要退出登录吗？" ok-text="确定" cancel-text="取消" @confirm="confirm">
                         <a href="#">退出登录</a>
                     </a-popconfirm>
                     <button @click="toHomeView"
@@ -80,12 +80,9 @@ export default defineComponent({
         const confirm = (e: MouseEvent) => {
             toHomeViewAndClearToken()
             console.log(e);
-            message.info('退出登录！');
+            message.info('成功退出登录！');
         };
 
-        const cancel = () => {
-            message.info('取消退出登录！');
-        };
 
         function toHomeView() {
             router.push({
@@ -125,7 +122,6 @@ export default defineComponent({
 
         return {
             confirm,
-            cancel,
             toHomeView,
             toHomeViewAndClearToken,
             toUserManage,

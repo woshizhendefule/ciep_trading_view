@@ -1,6 +1,11 @@
 <template>
-    <div v-if="state.userInfo?.isSeller != 1">
-        <a-table class="ant-table-striped" size="middle" :columns="columns1" :data-source="state.goodsOrders"
+    <a-button type="primary" style="margin-right: 18px;margin-bottom: 10px;margin-left: 2px;"
+        @click="chooseFlagFalse">作为买家订单</a-button>
+
+    <a-button type="primary" :disabled="state.userInfo?.isSeller != 1" @click="chooseFlagTrue">作为卖家订单</a-button>
+
+    <div v-if="state.chooseFlag == false">
+        <a-table class="ant-table-striped" size="middle" :columns="columns1" :data-source="state.usersGoodsOrders"
             :row-class-name="(_record: any, index: any) => (index % 2 === 1 ? 'table-striped' : null)" bordered>
             <template #bodyCell="{ column, record }">
                 <template v-if="column.dataIndex == 'status'">
@@ -38,8 +43,8 @@
             </template>
         </a-table>
     </div>
-    <div v-if="state.userInfo?.isSeller == 1">
-        <a-table class="ant-table-striped" size="middle" :columns="columns2" :data-source="state.goodsOrders"
+    <div v-if="state.chooseFlag == true">
+        <a-table class="ant-table-striped" size="middle" :columns="columns2" :data-source="state.goodsUsersGoodsOrders"
             :row-class-name="(_record: any, index: any) => (index % 2 === 1 ? 'table-striped' : null)" bordered>
             <template #bodyCell="{ column, record }">
                 <template v-if="column.dataIndex == 'status'">
@@ -81,12 +86,14 @@ import { defineComponent, reactive, onBeforeMount, ref } from "vue";
 import { message } from "ant-design-vue";
 
 interface state {
-    goodsOrders: GoodsOrder[],
+    usersGoodsOrders: GoodsOrder[],
+    goodsUsersGoodsOrders: GoodsOrder[],
     userInfo: UserInfo | undefined,
     inputGoodsUserScore: string,
     inputGoodsUserEvaluation: string,
     inputUserScore: string,
-    inputUserEvaluation: string
+    inputUserEvaluation: string,
+    chooseFlag: boolean
 }
 
 export default defineComponent({
@@ -94,12 +101,14 @@ export default defineComponent({
 
     setup() {
         const state = reactive<state>({
-            goodsOrders: [],
+            usersGoodsOrders: [],
+            goodsUsersGoodsOrders: [],
             userInfo: undefined,
             inputGoodsUserScore: '',
             inputGoodsUserEvaluation: '',
             inputUserScore: '',
-            inputUserEvaluation: ''
+            inputUserEvaluation: '',
+            chooseFlag: false
         });
 
         const visible = ref<boolean>(
@@ -118,44 +127,40 @@ export default defineComponent({
                     message.error(res.description)
                 }
             }).finally(() => {
-                if (state.userInfo?.isSeller != 1) {
-                    api.getUsersGoodsOrder({
-                        userId: state.userInfo?.id
-                    }).then((res: any) => {
-                        if (res.code == 200) {
-                            state.goodsOrders = res.data
-                            state.goodsOrders.forEach((goodsOrder: GoodsOrder) => {
-                                if (goodsOrder.createTime != null) {
-                                    goodsOrder.createTime = goodsOrder.createTime.split('T')[0] + ' ' + goodsOrder.createTime.split('T')[1].split('.')[0]
-                                }
-                                if (goodsOrder.completeTime != null) {
-                                    goodsOrder.completeTime = goodsOrder.completeTime.split('T')[0] + ' ' + goodsOrder.completeTime.split('T')[1].split('.')[0]
-                                }
-                            })
-                        } else {
-                            message.error(res.description)
-                        }
-                    })
-                }
-                if (state.userInfo?.isSeller == 1) {
-                    api.getGoodsUsersGoodsOrder({
-                        goodsUserId: state.userInfo?.id
-                    }).then((res: any) => {
-                        if (res.code == 200) {
-                            state.goodsOrders = res.data
-                            state.goodsOrders.forEach((goodsOrder: GoodsOrder) => {
-                                if (goodsOrder.createTime != null) {
-                                    goodsOrder.createTime = goodsOrder.createTime.split('T')[0] + ' ' + goodsOrder.createTime.split('T')[1].split('.')[0]
-                                }
-                                if (goodsOrder.completeTime != null) {
-                                    goodsOrder.completeTime = goodsOrder.completeTime.split('T')[0] + ' ' + goodsOrder.completeTime.split('T')[1].split('.')[0]
-                                }
-                            })
-                        } else {
-                            message.error(res.description)
-                        }
-                    })
-                }
+                api.getUsersGoodsOrder({
+                    userId: state.userInfo?.id
+                }).then((res: any) => {
+                    if (res.code == 200) {
+                        state.usersGoodsOrders = res.data
+                        state.usersGoodsOrders.forEach((goodsOrder: GoodsOrder) => {
+                            if (goodsOrder.createTime != null) {
+                                goodsOrder.createTime = goodsOrder.createTime.split('T')[0] + ' ' + goodsOrder.createTime.split('T')[1].split('.')[0]
+                            }
+                            if (goodsOrder.completeTime != null) {
+                                goodsOrder.completeTime = goodsOrder.completeTime.split('T')[0] + ' ' + goodsOrder.completeTime.split('T')[1].split('.')[0]
+                            }
+                        })
+                    } else {
+                        message.error(res.description)
+                    }
+                })
+                api.getGoodsUsersGoodsOrder({
+                    goodsUserId: state.userInfo?.id
+                }).then((res: any) => {
+                    if (res.code == 200) {
+                        state.goodsUsersGoodsOrders = res.data
+                        state.goodsUsersGoodsOrders.forEach((goodsOrder: GoodsOrder) => {
+                            if (goodsOrder.createTime != null) {
+                                goodsOrder.createTime = goodsOrder.createTime.split('T')[0] + ' ' + goodsOrder.createTime.split('T')[1].split('.')[0]
+                            }
+                            if (goodsOrder.completeTime != null) {
+                                goodsOrder.completeTime = goodsOrder.completeTime.split('T')[0] + ' ' + goodsOrder.completeTime.split('T')[1].split('.')[0]
+                            }
+                        })
+                    } else {
+                        message.error(res.description)
+                    }
+                })
             })
         })
 
@@ -167,12 +172,20 @@ export default defineComponent({
             visible1.value = true;
         };
 
+        function chooseFlagTrue() {
+            state.chooseFlag = true;
+        }
+
+        function chooseFlagFalse() {
+            state.chooseFlag = false;
+        }
+
         function cancelOrders(record: GoodsOrder) {
             api.cancelOrders({
                 id: record.id
             }).then((res: any) => {
                 if (res.code == 200) {
-                    state.goodsOrders[state.goodsOrders.lastIndexOf(record)].status = 2
+                    state.goodsUsersGoodsOrders[state.goodsUsersGoodsOrders.lastIndexOf(record)].status = 2
                 } else {
                     message.error(res.description)
                 }
@@ -212,7 +225,8 @@ export default defineComponent({
                 userEvaluation: state.inputUserEvaluation
             }).then((res: any) => {
                 if (res.code == 200) {
-                    window.location.reload()
+                    state.goodsUsersGoodsOrders[state.goodsUsersGoodsOrders.lastIndexOf(record)].userScore = parseFloat(state.inputUserScore)
+                    state.goodsUsersGoodsOrders[state.goodsUsersGoodsOrders.lastIndexOf(record)].userEvaluation = state.inputUserEvaluation
                 } else {
                     message.error(res.description)
                 }
@@ -225,7 +239,7 @@ export default defineComponent({
             }).then((res: any) => {
                 if (res.code == 200) {
                     message.info('申请已提交至卖家，等待卖家通过；若超出14天，请致电客服！')
-                    state.goodsOrders[state.goodsOrders.lastIndexOf(record)].status = 3
+                    state.usersGoodsOrders[state.usersGoodsOrders.lastIndexOf(record)].status = 3
                 } else {
                     message.error(res.description)
                 }
@@ -268,7 +282,9 @@ export default defineComponent({
             visible,
             visible1,
             showModal,
-            showModal1
+            showModal1,
+            chooseFlagTrue,
+            chooseFlagFalse
         };
     },
 });

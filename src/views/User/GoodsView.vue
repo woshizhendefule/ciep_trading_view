@@ -28,7 +28,13 @@
                     {{ state.goodsInfo?.userName }}
                 </div>
                 <div style="font-size: 18px; font-weight: 300; position: relative; top: 105px;left: 18px;">
-                    卖家评分: {{ state.goodsInfo?.goodsUserScore }}
+                    <div v-if="state.goodsInfo?.goodsUserScore != null">
+                        卖家评分: {{ state.goodsInfo?.goodsUserScore }}
+                    </div>
+                    <div v-else>
+                        卖家评分: 暂无评分
+                    </div>
+
                 </div>
             </div>
             <div>
@@ -340,6 +346,7 @@ export default defineComponent({
             }).then((res: any) => {
                 if (res.code == 200) {
                     message.success('收藏成功！')
+                    window.location.reload()
                 } else {
                     message.error(res.description)
                 }

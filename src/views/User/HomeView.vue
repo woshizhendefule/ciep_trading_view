@@ -202,21 +202,33 @@ export default defineComponent({
         }
 
         function toCollectionManage() {
-            router.push({
-                name: 'collectionManage'
-            })
+            if (localStorage.getItem('token') == undefined || localStorage.getItem('token') == '') {
+                message.error('未登录')
+            } else {
+                router.push({
+                    name: 'collectionManage'
+                })
+            }
         }
 
         function toGoodsManage() {
-            router.push({
-                name: 'goodsManage'
-            })
+            if (localStorage.getItem('token') == undefined || localStorage.getItem('token') == '') {
+                message.error('未登录')
+            } else {
+                router.push({
+                    name: 'goodsManage'
+                })
+            }
         }
 
         function toGoodsOrderManage() {
-            router.push({
-                name: 'goodsOrderManage'
-            })
+            if (localStorage.getItem('token') == undefined || localStorage.getItem('token') == '') {
+                message.error('未登录')
+            } else {
+                router.push({
+                    name: 'goodsOrderManage'
+                })
+            }
         }
 
         return {

@@ -1,5 +1,5 @@
 <template>
-    <a-button type="primary" @click="showModal1" style="position: relative; left: 1293px; bottom: 10px;">发布商品</a-button>
+    <a-button type="primary" @click="showModal1" style="position: relative; left: 1276px; bottom: 10px;">发布商品</a-button>
     <a-modal v-model:visible="visible1" title="发布商品" @ok="releaseGoods()">
         <a-input v-model:value="state.releaseGoodssName" :bordered="false" placeholder="请输入商品名称" /><br><br>
         <a-input v-model:value="state.releaseGoodssIntroduce" :bordered="false" placeholder="请输入商品介绍" /><br><br>
@@ -39,7 +39,8 @@
             </template>
             <template v-if="column.dataIndex == 'caozuo'">
 
-                <a-button type="primary" @click="showModal(record.id)" style="margin-right: 10px;">修改商品</a-button>
+                <a-button type="primary" @click="showModal(record.id)" style="margin-right: 10px;"
+                    :disabled="record.isRelease == 3">修改商品</a-button>
                 <a-modal v-model:visible="state.visible[record.id]" title="修改商品" @ok="modifyGoods(record)">
 
                     <a-input v-model:value="state.modifyGoodssName" :bordered="false"
@@ -71,7 +72,8 @@
                 <a-button type="primary" style="margin-right: 10px;" @click="againReleaseGoods(record)"
                     :disabled="record.isRelease != 1">重新发布</a-button>
 
-                <a-button danger style="margin-right: 10px;" @click="deleteGoods(record)">删除商品</a-button>
+                <a-button danger style="margin-right: 10px;" @click="deleteGoods(record)"
+                    :disabled="record.isRelease == 3">删除商品</a-button>
             </template>
         </template>
     </a-table>
@@ -175,7 +177,7 @@ export default defineComponent({
                     message.success('修改成功！')
                     window.location.reload()
                 } else {
-                    message.error(res.description)
+                    message.error('请您检查修改商品信息！')
                 }
             })
         }
@@ -198,7 +200,7 @@ export default defineComponent({
                     message.success('发布成功！')
                     window.location.reload()
                 } else {
-                    message.error(res.description)
+                    message.error('请您检查发布商品信息！')
                 }
             })
         }
