@@ -8,11 +8,12 @@
                 <div v-if="record.isSeller == 2">待审核</div>
             </template>
             <template v-if="column.dataIndex == 'goodsUserScore'">
-                <div v-if="record.goodsUserScore != -1"> {{ record.goodsUserScore }}</div>
+                <div v-if="record.goodsUserScore != null && record.goodsUserScore != -1"> {{ record.goodsUserScore }}
+                </div>
                 <div v-else style="color: #00000050;">暂无评分</div>
             </template>
             <template v-if="column.dataIndex == 'userScore'">
-                <div v-if="record.userScore != -1"> {{ record.userScore }}</div>
+                <div v-if="record.userScore != null && record.userScore != -1"> {{ record.userScore }}</div>
                 <div v-else style="color: #00000050;">暂无评分</div>
             </template>
             <template v-if="column.dataIndex == 'caozuo'">

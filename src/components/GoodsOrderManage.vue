@@ -1,8 +1,9 @@
 <template>
-    <a-button type="primary" style="margin-right: 18px;margin-bottom: 10px;margin-left: 2px;"
-        @click="chooseFlagFalse">作为买家订单</a-button>
+    <a-button type="primary" style="margin-right: 18px;margin-bottom: 10px;margin-left: 2px;" @click="chooseFlagFalse"
+        :disabled="state.chooseFlag == false">作为买家订单</a-button>
 
-    <a-button type="primary" :disabled="state.userInfo?.isSeller != 1" @click="chooseFlagTrue">作为卖家订单</a-button>
+    <a-button type="primary" :disabled="state.userInfo?.isSeller != 1 || state.chooseFlag == true"
+        @click="chooseFlagTrue">作为卖家订单</a-button>
 
     <div v-if="state.chooseFlag == false">
         <a-table class="ant-table-striped" size="middle" :columns="columns1" :data-source="state.usersGoodsOrders"
@@ -19,7 +20,7 @@
                         @click="completeOrders(record)">完成订单</a-button>
                     <a-button type="primary" @click="showModal" style="margin: 0 0 10px 0;"
                         :disabled="!(record.status == 1) || record.goodsUserEvaluation != ''">对卖家评价</a-button>
-                    <a-modal v-model:visible="visible" title="修改用户名" @ok="commentGoodsUser(record)">
+                    <a-modal v-model:visible="visible" title="对卖家评价" @ok="commentGoodsUser(record)">
                         <a-input v-model:value="state.inputGoodsUserScore" :bordered="false"
                             placeholder="请输入本次交易的评分（五分制）" />
                         <a-input v-model:value="state.inputGoodsUserEvaluation" :bordered="false"
@@ -56,7 +57,7 @@
                 <template v-if="column.dataIndex == 'caozuo'">
                     <a-button type="primary" @click="showModal1" style="margin: 0;margin-right: 10px;"
                         :disabled="!(record.status == 1) || record.userEvaluation != ''">对买家评价</a-button>
-                    <a-modal v-model:visible="visible1" title="修改用户名" @ok="commentUser(record)">
+                    <a-modal v-model:visible="visible1" title="对买家评价" @ok="commentUser(record)">
                         <a-input v-model:value="state.inputUserScore" :bordered="false" placeholder="请输入本次交易的评分（五分制）" />
                         <a-input v-model:value="state.inputUserEvaluation" :bordered="false" placeholder="请输入本次交易的评价" />
                     </a-modal>
@@ -225,8 +226,7 @@ export default defineComponent({
                 userEvaluation: state.inputUserEvaluation
             }).then((res: any) => {
                 if (res.code == 200) {
-                    state.goodsUsersGoodsOrders[state.goodsUsersGoodsOrders.lastIndexOf(record)].userScore = parseFloat(state.inputUserScore)
-                    state.goodsUsersGoodsOrders[state.goodsUsersGoodsOrders.lastIndexOf(record)].userEvaluation = state.inputUserEvaluation
+                    window.location.reload()
                 } else {
                     message.error(res.description)
                 }
@@ -253,8 +253,8 @@ export default defineComponent({
             { title: '订单开始时间', dataIndex: 'createTime', key: 'createTime', },
             { title: '订单状态', dataIndex: 'status', key: 'status', },
             { title: '订单完成时间', dataIndex: 'completeTime', key: 'completeTime', },
-            { title: '卖家评分（五分制）', dataIndex: 'goodsUserScore', key: 'goodsUserScore', },
-            { title: '卖家评价', dataIndex: 'goodsUserEvaluation', key: 'goodsUserEvaluation', },
+            { title: '对卖家评分（五分制）', dataIndex: 'goodsUserScore', key: 'goodsUserScore', },
+            { title: '对卖家评价', dataIndex: 'goodsUserEvaluation', key: 'goodsUserEvaluation', },
             { title: '操作', dataIndex: 'caozuo', key: 'caozuo', width: '325px' },
         ]
 
@@ -265,8 +265,8 @@ export default defineComponent({
             { title: '订单开始时间', dataIndex: 'createTime', key: 'createTime', },
             { title: '订单状态', dataIndex: 'status', key: 'status', },
             { title: '订单完成时间', dataIndex: 'completeTime', key: 'completeTime', },
-            { title: '买家评分（五星制）', dataIndex: 'userScore', key: 'userScore', },
-            { title: '买家评价', dataIndex: 'userEvaluation', key: 'userEvaluation', },
+            { title: '对买家评分（五分制）', dataIndex: 'userScore', key: 'userScore', },
+            { title: '对买家评价', dataIndex: 'userEvaluation', key: 'userEvaluation', },
             { title: '操作', dataIndex: 'caozuo', key: 'caozuo', width: '325px' },
         ]
 

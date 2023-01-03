@@ -72,13 +72,13 @@ export default defineComponent({
         }
 
         const columns = [
-            { title: '卖家用户名', dataIndex: 'goodsUserName', key: 'goodsUserName', },
             { title: '买家用户名', dataIndex: 'userName', key: 'userName', },
+            { title: '卖家用户名', dataIndex: 'goodsUserName', key: 'goodsUserName', },
             { title: '商品名称', dataIndex: 'goodsName', key: 'goodsName', },
-            { title: '卖家评分（五星制）', dataIndex: 'goodsUserScore', key: 'goodsUserScore', },
-            { title: '卖家评价', dataIndex: 'goodsUserEvaluation', key: 'goodsUserEvaluation', },
-            { title: '买家评分（五星制）', dataIndex: 'userScore', key: 'userScore', },
-            { title: '买家评价', dataIndex: 'userEvaluation', key: 'userEvaluation', },
+            { title: '对卖家的评分（五分制）', dataIndex: 'goodsUserScore', key: 'goodsUserScore', },
+            { title: '对卖家的评价', dataIndex: 'goodsUserEvaluation', key: 'goodsUserEvaluation', },
+            { title: '对买家的评分（五分制）', dataIndex: 'userScore', key: 'userScore', },
+            { title: '对买家的评价', dataIndex: 'userEvaluation', key: 'userEvaluation', },
             { title: '操作', dataIndex: 'caozuo', key: 'caozuo', width: '325px' },
         ]
 

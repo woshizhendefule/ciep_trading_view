@@ -70,8 +70,8 @@ export default defineComponent({
         }
 
         const columns = [
-            { title: '卖家用户名', dataIndex: 'goodsUserName', key: 'goodsUserName', },
             { title: '买家用户名', dataIndex: 'userName', key: 'userName', },
+            { title: '卖家用户名', dataIndex: 'goodsUserName', key: 'goodsUserName', },
             { title: '商品名称', dataIndex: 'goodsName', key: 'goodsName', },
             { title: '订单开始时间', dataIndex: 'createTime', key: 'createTime', },
             { title: '订单状态', dataIndex: 'status', key: 'status', },

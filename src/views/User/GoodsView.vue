@@ -29,7 +29,7 @@
                 </div>
                 <div style="font-size: 18px; font-weight: 300; position: relative; top: 105px;left: 18px;">
                     <div v-if="state.goodsInfo?.goodsUserScore != null">
-                        卖家评分: {{ state.goodsInfo?.goodsUserScore }}
+                        卖家评分: &nbsp;<a-rate :value="state.goodsInfo?.goodsUserScore" disabled allow-half />
                     </div>
                     <div v-else>
                         卖家评分: 暂无评分

@@ -1,16 +1,16 @@
 <template>
     <a-form :model="state" v-bind="layout" name="nest-messages" class="retrievePassword-form">
-        <a-form-item :name="['name']" label="&nbsp;&nbsp;用户名">
+        <a-form-item :name="['name']" label="用户名&nbsp;&nbsp;">
             <a-input v-model:value="state.name" />
-        </a-form-item>
-        <a-form-item :name="['password']" label="密&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;码">
-            <a-input v-model:value="state.password" />
         </a-form-item>
         <a-form-item :name="['studentId']" label="验证学号">
             <a-input v-model:value="state.studentId" />
         </a-form-item>
         <a-form-item :name="['phone']" label="验证手机">
             <a-input v-model:value="state.phone" />
+        </a-form-item>
+        <a-form-item :name="['password']" label="新密码&nbsp;&nbsp;">
+            <a-input v-model:value="state.password" />
         </a-form-item>
         <a-form-item :wrapper-col="{ ...layout.wrapperCol, offset: 6 }">
             <a-button type="primary" html-type="submit" @click="retrievePassword">找回密码</a-button>
