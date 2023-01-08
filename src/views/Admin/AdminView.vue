@@ -11,35 +11,42 @@
         <a-layout>
             <a-layout-sider width="200" style="background: #fff">
                 <a-menu :style="{ height: '100%', borderRight: 0, padding: '5px 10px' }">
-                    <a-menu-item key="1" @click="toUserList">
+                    <a-menu-item key="1" @click="toDataDisplay">
+                        <span>
+                            <bar-chart-outlined />
+                            每日成交
+                        </span>
+                    </a-menu-item>
+
+                    <a-menu-item key="2" @click="toUserList">
                         <span>
                             <user-outlined />
                             用户管理
                         </span>
                     </a-menu-item>
 
-                    <a-menu-item key="2" @click="toGoodsList">
+                    <a-menu-item key="3" @click="toGoodsList">
                         <span>
                             <appstore-outlined />
                             商品管理
                         </span>
                     </a-menu-item>
 
-                    <a-menu-item key="3" @click="toMessageList">
+                    <a-menu-item key="4" @click="toMessageList">
                         <span>
                             <comment-outlined />
                             留言管理
                         </span>
                     </a-menu-item>
 
-                    <a-menu-item key="4" @click="toEvaluationList">
+                    <a-menu-item key="5" @click="toEvaluationList">
                         <span>
                             <like-outlined />
                             评价管理
                         </span>
                     </a-menu-item>
 
-                    <a-menu-item key="5" @click="toGoodsOrderList">
+                    <a-menu-item key="6" @click="toGoodsOrderList">
                         <span>
                             <unordered-list-outlined />
                             订单管理
@@ -59,7 +66,7 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import { UserOutlined, AppstoreOutlined, CommentOutlined, LikeOutlined, UnorderedListOutlined } from '@ant-design/icons-vue';
+import { UserOutlined, AppstoreOutlined, CommentOutlined, LikeOutlined, UnorderedListOutlined, BarChartOutlined } from '@ant-design/icons-vue';
 import router from "@/router";
 
 // interface state {
@@ -74,7 +81,8 @@ export default defineComponent({
         AppstoreOutlined,
         CommentOutlined,
         LikeOutlined,
-        UnorderedListOutlined
+        UnorderedListOutlined,
+        BarChartOutlined
     },
 
     setup() {
@@ -86,6 +94,12 @@ export default defineComponent({
                 name: 'homeView'
             })
             localStorage.setItem('token', '')
+        }
+
+        function toDataDisplay() {
+            router.push({
+                name: 'dataDisplay'
+            })
         }
 
         function toUserList() {
@@ -119,12 +133,14 @@ export default defineComponent({
         }
 
         return {
+            toDataDisplay,
             toHomeView,
             toUserList,
             toGoodsList,
             toMessageList,
             toEvaluationList,
-            toGoodsOrderList
+            toGoodsOrderList,
+            BarChartOutlined
         };
     },
 });
@@ -133,4 +149,3 @@ export default defineComponent({
 <style scoped>
 
 </style>
-  

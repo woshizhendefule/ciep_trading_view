@@ -1,7 +1,7 @@
 <template>
   <a-form :model="state" name="normal_login" class="login-form">
     <h2 style="text-align: center;">欢迎使用校园闲置电子产品交易平台管理系统！</h2><br>
-    <a-form-item label="用户名" name="name" :rules="[{ required: true, message: '请输入您的用户名!' }]" style="margin-left: 12%;">
+    <a-form-item label="用户名" name="name" :rules="[{ required: true, message: '请输入您的用户名!' }]" style="margin-left: 17%;">
       <a-input v-model:value="state.name" style="width: 200px;">
         <template #prefix>
           <UserOutlined class="site-form-item-icon" />
@@ -10,7 +10,7 @@
     </a-form-item>
 
     <a-form-item label="密&nbsp;&nbsp;&nbsp;&nbsp;码" name="password" :rules="[{ required: true, message: '请输入您的密码!' }]"
-      style="margin-left: 12%;">
+      style="margin-left: 17%;">
       <a-input-password v-model:value="state.password" style="width: 200px;">
         <template #prefix>
           <LockOutlined class="site-form-item-icon" />
@@ -19,7 +19,7 @@
     </a-form-item><br>
     <a-form-item>
       <a-button :disabled="disabled" type="primary" html-type="submit" class="login-form-button" @click="adminLogin"
-        style="width: 80%;margin-left: 10%;">
+        style="width: 64%;margin-left: 18%;">
         登录
       </a-button>
     </a-form-item>
@@ -98,6 +98,6 @@ export default defineComponent({
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 357px;
+  width: 441px;
 }
 </style>
