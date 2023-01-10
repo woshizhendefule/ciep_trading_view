@@ -233,12 +233,7 @@ export default defineComponent({
             })
         }
 
-        function beforeUpload(file: any) {
-            console.log(file);
-        }
-
         function findValue(record: Goods) {
-            console.log(record);
             return state.usersGoodss.find((value: Goods) => value.id == record.id)
         }
 
@@ -262,7 +257,6 @@ export default defineComponent({
             visible1,
             showModal,
             showModal1,
-            beforeUpload,
             findValue,
             againReleaseGoods
         };

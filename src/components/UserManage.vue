@@ -20,12 +20,12 @@
     <div style="position: relative; left: 933px;display: flex;">
         <a-button type="primary" @click="showModal" style="margin: 18px 18px 0 0;">修改用户名</a-button>
         <a-modal v-model:visible="visible" title="修改用户名" @ok="modifyUserName">
-            <a-input v-model:value="state.inputNewName" :bordered="false" placeholder="请输入新的用户名" />
+            <a-input v-model:value="state.inputNewName" :bordered="false" :placeholder="state.userInfo?.name" />
         </a-modal>
 
         <a-button type="primary" @click="showModal1" style="margin: 18px 18px 0 0;">修改手机</a-button>
         <a-modal v-model:visible="visible1" title="修改手机" @ok="modifyUserPhone">
-            <a-input v-model:value="state.inputNewPhone" :bordered="false" placeholder="请输入新的手机" />
+            <a-input v-model:value="state.inputNewPhone" :bordered="false" :placeholder="state.userInfo?.phone" />
         </a-modal>
 
         <a-button type="primary" @click="showModal2" style="margin: 18px 18px 0 0;">修改密码</a-button>
@@ -152,7 +152,7 @@ export default defineComponent({
                 newPassword: state.inputNewPassword
             }).then((res: any) => {
                 if (res.code == 200) {
-                    message.success('修改成功！')
+                    message.success('修改成功，请登录！')
                     visible2.value = false;
                     localStorage.setItem('token', '')
                     toHomeView()

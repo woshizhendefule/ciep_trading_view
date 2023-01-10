@@ -54,7 +54,7 @@ export default defineComponent({
                 id: record.id
             }).then((res: any) => {
                 if (res.code == 200) {
-                    delete state.messages[state.messages.lastIndexOf(record)]
+                    window.location.reload()
                 } else {
                     message.error(res.description)
                 }
