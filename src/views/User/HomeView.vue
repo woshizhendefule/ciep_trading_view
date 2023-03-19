@@ -2,8 +2,7 @@
     <div style="background-color: #eae8eb; width: 100%;">
         <div style="height: 30px; width: 100%;"></div>
         <div style="text-align: center;margin-bottom: 30px;">
-            <img src="../../assets/logoForCiepTrading.png" style="margin-right: 50px;cursor: pointer;"
-                @click="toHomeView">
+            <img src="../../assets/logoForCiepTrading.png" style="margin-right: 50px;cursor: pointer;" @click="toHomeView">
             <input type="text" class="input_sousuo" v-model="state.searchName" placeholder="请输入关键字"
                 style="border-radius: 18px;height: 42px; width: 528px; border: 2px solid #fd0338;padding-left: 15px; ">
             <button class="button_sousuo" @click="searchGoods">搜索</button>
@@ -36,8 +35,7 @@
                 <div style="text-align: center;">
                     <div v-if="state.userInfo?.name == undefined">
                         <button class="text_user_caozuo" @click="toUserLogin">登录</button>
-                        <button class="text_user_caozuo" style="margin-left: 18px;"
-                            @click="toUserRegistered">注册</button>
+                        <button class="text_user_caozuo" style="margin-left: 18px;" @click="toUserRegistered">注册</button>
                     </div>
                     <div v-else>
                         <text>Hi！</text>
@@ -51,13 +49,11 @@
                 <div style=" text-align: center; display: flex;margin-top: 5px;">
                     <div style="margin-left: 65px;">
                         <star-outlined style="cursor: pointer;" @click="toCollectionManage" /><br>
-                        <text class="text_user_caozuo_more" style="cursor: pointer;"
-                            @click="toCollectionManage">宝贝收藏</text>
+                        <text class="text_user_caozuo_more" style="cursor: pointer;" @click="toCollectionManage">宝贝收藏</text>
                     </div>
                     <div style="margin-left: 39px;">
                         <unordered-list-outlined style="cursor: pointer;" @click="toGoodsOrderManage" /><br>
-                        <text class="text_user_caozuo_more" style="cursor: pointer;"
-                            @click="toGoodsOrderManage">我的订单</text>
+                        <text class="text_user_caozuo_more" style="cursor: pointer;" @click="toGoodsOrderManage">我的订单</text>
                     </div>
                     <div style="margin-left: 39px;">
                         <appstore-outlined style="cursor: pointer;" @click="toGoodsManage" /><br>
@@ -68,8 +64,7 @@
 
             <div style="display: flex; width: 1194px;flex-wrap: wrap;">
                 <div class="div_goods_card" style="display: flex;cursor: pointer;"
-                    v-for="goodsInfo in state.goodsInfos.slice(4)" :key="goodsInfo.id"
-                    @click="toGoodsView(goodsInfo.id)">
+                    v-for="goodsInfo in state.goodsInfos.slice(4)" :key="goodsInfo.id" @click="toGoodsView(goodsInfo.id)">
                     <div>
                         <img class="img_goods_card" :src="state.url + '/' + goodsInfo.picture">·
                     </div>
@@ -90,8 +85,7 @@
         <div style="height: 30px; width: 100%;bottom: 0; position: fixed; background-color: #fff; line-height: 30px;">
             <text style="margin-left: 10px;">联系客服：180-xxxx-8731</text>
             <b style="color: #ddd; margin: 0 7px;">|</b>
-            <text style="text-decoration: underline;color: #888888; cursor: pointer;"
-                @click="toAdminLogin">平台管理系统入口</text>
+            <text style="text-decoration: underline;color: #888888; cursor: pointer;" @click="toAdminLogin">平台管理系统入口</text>
         </div>
     </div>
 </template>
@@ -159,7 +153,7 @@ export default defineComponent({
                         }
                     })
                 } else {
-                    message.error(res.description)
+                    message.error('请输入关键字')
                 }
             })
         }
